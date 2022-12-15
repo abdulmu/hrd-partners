@@ -2,20 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 
 Auth::routes();
 
@@ -34,13 +20,14 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('lendings', 'Backend\LendingController', ['names' => 'admin.lendings']);
     Route::resource('companies', 'Backend\CompaniesController', ['names' => 'admin.companies']);
 
-    // Route::post('product_interest_items', 'Backend\MasterProductController@product_interest')->name('admin.product_interest');
     Route::post('generate', 'Backend\MasterProductController@generate')->name('admin.generate');
     Route::post('product_interest_items', 'Backend\MasterProductController@product_interest')->name('admin.product_interest');
     Route::post('ProductInterestItems', 'Backend\MasterProductController@ProductInterestItems')->name('admin.ProductInterestItems');
 
     Route::get('list_lending_json', 'Backend\lendingController@list_lending_json')->name('admin.list_lending_json');
     Route::post('getLending', 'Backend\lendingController@getLending')->name('admin.getLending');
+    Route::post('confirms', 'Backend\lendingController@confirms')->name('admin.confirms');
+    Route::post('reject', 'Backend\lendingController@reject')->name('admin.reject');
 
     Route::post('getCompany', 'Backend\CompaniesController@getCompany')->name('admin.getCompany');
     Route::get('list_json_companies', 'Backend\CompaniesController@list_json')->name('admin.list_json_companies');

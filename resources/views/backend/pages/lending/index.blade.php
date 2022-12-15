@@ -31,7 +31,6 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.jqueryui.min.css">
 @endsection
 
-
 @section('admin-content')
 
 <!-- page title area start -->
@@ -39,10 +38,9 @@
     <div class="row align-items-center">
         <div class="col-sm-6">
             <div class="breadcrumbs-area clearfix">
-                <h4 class="page-title pull-left">Admins</h4>
                 <ul class="breadcrumbs pull-left">
                     <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                    <li><span>All Admins</span></li>
+                    <li><span>Pinjaman</span></li>
                 </ul>
             </div>
         </div>
@@ -101,65 +99,77 @@
         <div class="container" id='img_target_invoice'>
         </div>
         <br>
-        <form >
+        <form method="POST" id='confirm'>
+            {{-- @method('POST') --}}
+            @csrf
 
             <div class="form-row">
                 <div class="form-group col-md-6 col-sm-12">
                     <label for="name">Nama Peminjam</label>
-                    <input type="text" class="form-control text-center" id="update_name" name="name" placeholder="Enter Name" >
-                    <input type="text" class="form-control text-center" id="update_id" name="name" >
+                    <input type="text" class="form-control text-center" id="update_name" name="name" placeholder="Nama Peminjam"  readonly>
+                    <input type="text" class="form-control text-center" id="update_id" name="id" >
 
                 </div>
                 <div class="form-group col-md-6 col-sm-12">
                     <label for="email">Loan Code</label>
-                    <input type="text" class="form-control text-center" id="update_loan_code" name="email" >
+                    <input type="text" class="form-control text-center" id="update_loan_code" name="Loan Code" readonly>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-6 col-sm-12">
                     <label for="password">Nominal Pinjaman</label>
-                    <input type="tenor" class="form-control text-center" id="update_received_amount" name="tenor" >
+                    <input type="tenor" class="form-control text-center" id="update_received_amount" placeholder="Nominal Pinjam" readonly >
                 </div>
                 <div class="form-group col-md-6 col-sm-12">
                     <label for="password_confirmation">Status KYC</label>
-                    <input type="text" class="form-control text-center" id="update_kyc_status" name="password_confirmation">
+                    <input type="text" class="form-control text-center" id="update_kyc_status" name="password_confirmation" placeholder="Status KYC" readonly>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-6 col-sm-6">
-                    <label for="username">Plafon Pinjaman</label>
-                    <input type="text" class="form-control text-center" id="update_plafon" name="username" placeholder="Enter Username" required >
+                    <label for="username">Nama Product</label>
+                    <input type="text" class="form-control text-center" id="update_product_name" name="username" placeholder="Nama Product" readonly >
                 </div>
                 <div class="form-group col-md-6 col-sm-6">
-                    <label for="username">Plafon Aktif</label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Plafon Aktif" required >
+                    <label for="username">Kode Product</label>
+                    <input type="text" class="form-control text-center" id="update_product_code" name="username" placeholder="Kode Product" readonly >
                 </div>
             </div>
 
             <div class="form-row">
+                <div class="form-group col-md-6 col-sm-6">
+                    <label for="username">Tenor</label>
+                    <input type="text" class="form-control text-center" id="update_tenor" name="username" placeholder="Sisa Plafon" readonly >
+                 </div>
+                <div class="form-group col-md-6 col-sm-6">
+                    <label for="username">Bunga</label>
+                    <input type="text" class="form-control text-center" id="update_bunga" name="username" placeholder="Sisa Plafon" readonly >
+                 </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6 col-sm-6">
+                    <label for="username">Status Konfirmasi</label>
+                    <input type="text" class="form-control text-center" id="update_status" name="username" placeholder="Sisa Plafon" readonly >
+                 </div>
                 <div class="form-group col-md-6 col-sm-6">
                     <label for="username">Tanggal Peminjaman</label>
-                    <input type="text" class="form-control" id="update_created_at" name="username" placeholder="Sisa Plafon" required >
+                    <input type="text" class="form-control text-center" id="update_created_at" name="username" placeholder="Sisa Plafon" readonly >
                  </div>
             </div>
 
         </form>
         </div>
         <div class="modal-footer float-left">
-          <button type="button" id="btnSave" onclick="confirm_send('Terima')" class="btn btn-primary ">Terima</button>
-          <button type="button" class="btn btn-danger btns" onclick="confirm_send('Tolak')">Cancel</button>
+          <button type="button" id="confirms" class="btn btn-primary ">Terima</button>
+          <button type="button" id="reject" class="btn btn-danger btns">Tolak</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
 
 @endsection
-
-
-
-
 
 @section('scripts')
      <!-- Start datatable js -->
@@ -170,9 +180,22 @@
      <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
      
      <script>
-         /*================================
-        datatable active
-        ==================================*/
+
+        $(document).ready(function() {
+
+            $('#confirms').click(function(){
+                $('#confirm').attr('action', '{{ route('admin.confirms') }}');
+                // form.submit();
+                $( "#confirm" ).submit();
+
+            });
+
+            $('#reject').click(function(){
+                $('#confirm').attr('action', '{{ route('admin.reject') }}');
+                $( "#confirm" ).submit();
+            });
+        });
+
         if ($('#dataTable').length) {
             $('#dataTable').DataTable({
                 responsive: true
@@ -192,7 +215,7 @@
                 {data: 'name', name: 'name'},
                 {data: 'loan_code', name: 'loan_code'},
                 {data: 'received_amount', name: 'received_amount'},
-                {data: 'created_at', name:'created_at'},
+                {data: 'status', name:'status'},
                 {data: 'btn', name: 'btn', orderable: false, searchable: false},
             ],
             "columnDefs": [
@@ -241,8 +264,15 @@
                     $('#update_id').val(obj.id);
                     $('#update_name').val(obj.name);
                     $('#update_loan_code').val(obj.loan_code);
+                    $('#update_kyc_status').val(obj.kyc_status);
                     $('#update_received_amount').val(obj.received_amount);
                     $('#update_created_at').val(obj.created_at);
+                    $('#update_bunga').val(obj.bunga);
+                    $('#update_tenor').val(obj.tenor);
+                    $('#update_product_code').val(obj.product_code);
+                    $('#update_product_name').val(obj.product_name);
+                    $('#update_status').val(obj.status);
+                    
                     // $('#update_kyc_status').val(obj.kyc_status);
 
 

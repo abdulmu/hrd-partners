@@ -208,27 +208,49 @@ class Lending extends Model
 
     public static function Datalist(){
 
-        $data = DB::connection('pgsql2')->table('lending_borrowers')
-                ->select('users.name','received_amount','lending_borrowers.id','lending_borrowers.loan_code','lendings.created_at')
-                ->join('lendings', 'lendings.id', '=', 'lending_borrowers.lending_id')
-                ->join('borrowers', 'borrowers.id', '=', 'lending_borrowers.lending_id')
+    
+        $data = DB::connection('pgsql2')->table('lendings')
+                ->select('lendings.loan_code','lendings.created_at','confirm_hrd.loan_amount','confirm_hrd.status','lendings.id','users.name','received_amount')
+                ->join('confirm_hrd', 'confirm_hrd.lending_id', '=', 'lendings.id')
+                ->join('lending_borrowers', 'lendings.id', '=', 'lending_borrowers.lending_id')
+                ->join('borrowers', 'borrowers.id', '=', 'lending_borrowers.borrower_id')
                 ->join('users', 'users.borrower_id', '=', 'borrowers.id')
                 ->get();
+
 
         return $data;
     }
 
     public static function Getlist($id){
 
-        $data = DB::connection('pgsql2')->table('lending_borrowers')
-                 ->select('id')
-
-                ->select('users.name','received_amount','lending_borrowers.id','lending_borrowers.loan_code','lendings.created_at')
-                ->join('lendings', 'lendings.id', '=', 'lending_borrowers.lending_id')
+        $data = DB::connection('pgsql2')->table('confirm_hrd')
+                ->select('users.name','received_amount','lendings.id','lendings.loan_code','lendings.created_at','lendings.loan_amount','kyc_status','master_product_interest_items.interest_rate','master_product_interest_items.interest_rate_calculation','master_product_interest_items.tenor','master_product_interest_items.tenor_unit','master_products.product_code','master_products.product_name','confirm_hrd.status')
+                ->join('lendings', 'confirm_hrd.lending_id', '=', 'lendings.id')
+                ->join('lending_borrowers', 'lendings.id', '=', 'lending_borrowers.lending_id')
                 ->join('borrowers', 'borrowers.id', '=', 'lending_borrowers.borrower_id')
                 ->join('users', 'users.borrower_id', '=', 'borrowers.id')
-                ->where('lending_borrowers.id',$id)
+                ->join('master_product_interest_items', 'master_product_interest_items.product_id', '=','lendings.product_id')
+                ->join('master_products', 'master_products.id', '=','master_product_interest_items.product_id')
+                ->where('lendings.id',$id)
                 ->first();
+
+        return $data;
+    }
+
+    public static function LendingID($id){
+
+        $data = DB::connection('pgsql2')->table('confirm_hrd')
+                ->select('lending_id','loan_code','loan_amount')
+                ->where('lending_id',$id)
+                ->first();
+
+        return $data;
+    }
+    public static function CofirmUpdate($id,$status){
+
+        $data = DB::connection('pgsql2')->table('confirm_hrd')
+            ->where('lending_id', $id)
+            ->update(['status' => $status]);
 
         return $data;
     }

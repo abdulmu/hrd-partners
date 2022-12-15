@@ -79,7 +79,7 @@
                         <ul class="collapse {{ Route::is('admin.lending.create') || Route::is('admin.lending.index') || Route::is('admin.lending.edit') || Route::is('admin.lending.show') ? 'in' : '' }}">
                             
                             @if ($usr->can('lending.view'))
-                                <li class="{{ Route::is('admin.lendings.index')  || Route::is('admin.lending.edit') ? 'active' : '' }}"><a href="{{ route('admin.lendings.index') }}">List Peminjaman</a></li>
+                                <li class="{{ Route::is('admin.lendings.index')  || Route::is('admin.lending.edit') ? 'active' : '' }}"><a href="{{ route('admin.lendings.index') }}">List Pinjaman</a></li>
                             @endif
                         </ul>
                     </li>
