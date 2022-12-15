@@ -117,7 +117,7 @@ class MasterProductController extends Controller
     {
 
         $code = rand();
-        $product_code=MasterProduct::find($request->product_id)->product_code;
+        $masterproduct=MasterProduct::find($request->product_id);
         $tenor=MasterProductInterestItem::find($request->product_interest_code);
 
         $cekAktif=GeneratorAccesLoan::where('user_id', $request->id_user)->where('status','Aktif')->where('product_code',$product_code)->get();
@@ -128,7 +128,8 @@ class MasterProductController extends Controller
 
         $save  = array(
             'id'=>GeneratorAccesLoan::getNextId(),
-            'product_code' => $product_code,
+            'product_code' => $masterproduct->product_code,
+            'product_id' => $masterproduct->product_id,
             'created_by' =>Auth::guard('admin')->user()->id,
             'status' => 'Aktif',
             'tenor' => $tenor->tenor,
