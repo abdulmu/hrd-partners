@@ -107,7 +107,7 @@
                 <div class="form-group col-md-6 col-sm-12">
                     <label for="name">Nama Peminjam</label>
                     <input type="text" class="form-control text-center" id="update_name" name="name" placeholder="Nama Peminjam"  readonly>
-                    <input type="text" class="form-control text-center" id="update_id" name="id" >
+                    <input type="hidden" class="form-control text-center" id="update_id" name="id" >
 
                 </div>
                 <div class="form-group col-md-6 col-sm-12">

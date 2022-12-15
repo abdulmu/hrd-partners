@@ -97,6 +97,8 @@ class LendingController extends Controller
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $hasil=curl_exec($ch);
+        // var_dump($hasil);
+        // exit();
         $err = curl_error($ch);
         curl_close ($ch);
         $result=json_decode($hasil, true);
@@ -129,7 +131,7 @@ class LendingController extends Controller
         $err = curl_error($ch);
         curl_close ($ch);
         $result=json_decode($hasil, true);
-        
+
         $data = Lending::CofirmUpdate($request->id,$status);
         session()->flash('success', 'Rejected Success !!');
         return back();
