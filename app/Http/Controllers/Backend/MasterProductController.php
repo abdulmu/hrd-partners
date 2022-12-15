@@ -26,6 +26,10 @@ class MasterProductController extends Controller
         $keyword="https://storage.googleapis.com/klikumkm/upload/images";
         $records = MasterProduct::Productlist();
 
+        // dd($records);
+
+        $datas = [];
+
         foreach($records as $record){
 
             if($record->tenor_unit == 'monthly'){
@@ -60,11 +64,23 @@ class MasterProductController extends Controller
     public function ProductInterestItems(Request $request){
 
         $data = MasterProductInterestItem::getDataItem((int)$request->id);
+
+        // dd($data);
         $datas=null;
+
+
 
         foreach ($data as $rows => $row) {
 
-            $datas[$rows]= array("id"=>$row->id,"tenor"=>$row->tenor,"tenor_unit"=>$row->tenor_unit,'interest_rate_calculation'=>$row->interest_rate_calculation,'btn'=>$row->id_master,'interest_rate'=>$row->interest_rate,'product_name'=>$row->product_name);
+            if($row->tenor_unit == 'monthly'){
+                $satuan=" Bulan";
+            }elseif($row->tenor_unit == 'weekly'){
+                $satuan=" Minggu";
+            }else{
+                $satuan=" Hari";
+            }
+
+            $datas[$rows]= array("id"=>$row->id,"tenor"=>$row->tenor.$satuan,'interest_rate_calculation'=>$row->interest_rate_calculation,'btn'=>$row->id_master,'interest_rate'=>$row->interest_rate,'product_name'=>$row->product_name);
         }
 
         return Datatables::of($datas)->make(true);
@@ -120,12 +136,12 @@ class MasterProductController extends Controller
         $masterproduct=MasterProduct::find($request->product_id);
         $tenor=MasterProductInterestItem::find($request->product_interest_code);
 
-        $cekAktif=GeneratorAccesLoan::where('user_id', $request->id_user)->where('status','Aktif')->where('product_code',$product_code)->get();
+        $cekAktif=GeneratorAccesLoan::where('user_id', $request->id_user)->where('status','Aktif')->where('product_code',$masterproduct->product_code)->get();
 
         if(count($cekAktif) != 0){
             $this->Checkcode($request->id_user);
         }
-
+        
         $save  = array(
             'id'=>GeneratorAccesLoan::getNextId(),
             'product_code' => $masterproduct->product_code,

@@ -69,7 +69,6 @@
                                 <tr>
                                     <th width="5%">Sl</th>
                                     <th width="10%">Kode Product</th>
-                                    <th width="10%">Kode Product</th>
                                     <th width="10%">Nama Product</th>
                                     <th width="10%">Tenor Pinjaman</th>
                                     <th width="40%">Bunga</th>
@@ -79,10 +78,13 @@
                             </thead>
                             <tbody>
                                 {{-- {{ dd($datas) }} --}}
+                                {{-- {{ dd(count($datas)) }} --}}
+                                {{-- @if (count($datas) >= 0) --}}
+
+                                    
                                @foreach ($datas as $datasa=>$data)
                                <tr>  
                                     <td>{{ $loop->index+1 }}</td>
-                                    <td>{{ $data['id']}}</td>
 
                                     <td>{{ $data['product_code']}}</td>
                                     <td>{{ $data['product_name']}}</td>
@@ -99,6 +101,8 @@
                                     </td>
                                 </tr>
                                @endforeach
+                               {{-- @endif --}}
+
                             </tbody>
                         </table>
                     </div>
@@ -175,12 +179,10 @@
                     <thead>
                       <tr class="bg-info">
                         <th>product_name</th>
-                        <th>teno_unit</th>
                         <th>tenor</th>
                         <th>interest_rate_calculation</th>
                         <th>interest_rate</th>
                         <th>id</th>
-                        {{-- <!-- <th>Status</th> --> --}}
                         <th>Aksi</th>
                       </tr>
                     </thead>
@@ -290,7 +292,6 @@
             "serverSide": true, //Feature control DataTables' server-side processing mode.
             "columns": [
                 {data: 'product_name', name: 'product_name'},
-                {data: 'teno_unit', name: 'teno_unit'},
                 {data: 'tenor', name: 'tenor'},
                 {data: 'interest_rate_calculation', name: 'interest_rate_calculation'},
                 {data: 'interest_rate', name: 'interest_rate'},

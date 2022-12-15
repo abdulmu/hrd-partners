@@ -51,7 +51,7 @@ class MasterProduct extends Model
         ->select('master_products.id','product_name','interest_code','interest_rate','interest_rate_calculation','tenor','tenor_unit','grace_period','min_amount','max_amount','master_products.product_code')
         ->join('master_product_interest', 'master_product_interest.product_id', '=', 'master_products.id')
         ->join('master_product_interest_items', 'master_product_interest_items.product_interest_id', '=', 'master_product_interest.id')
-        ->where('master_products.status', 1)
+        ->where('master_products.status', 2)
         ->groupBy('master_products.product_code')
         ->groupBy('master_products.id')
         ->groupBy('master_product_interest.interest_code')
@@ -64,24 +64,7 @@ class MasterProduct extends Model
 
         return $data;
     }
-    // public static function Productlistsc(){
-
-    //     $data = DB::connection('pgsql2')->table('master_products')
-    //     ->select('master_products.id','product_name','interest_code','interest_rate','interest_rate_calculation','tenor','tenor_unit','grace_period','min_amount','max_amount','master_products.product_code')
-    //     ->join('master_product_interest', 'master_product_interest.product_id', '=', 'master_products.id')
-    //     ->join('master_product_interest_items', 'master_product_interest_items.product_interest_id', '=', 'master_product_interest.id')
-    //     ->where('master_products.status', 1)
-    //     ->where('master_products.status', 1)
-    //     ->groupBy('grace_period')
-    //     ->orderBy('grace_period')
-
-
-    //     // ->groupBy('status')
-    //     ->get();
-
-    //     return $data;
-    // }
-
+  
     public static function Productlist_id($id){
 
         $data = DB::connection('pgsql2')->table('master_products')
