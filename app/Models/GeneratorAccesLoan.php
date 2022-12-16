@@ -20,6 +20,7 @@ class GeneratorAccesLoan extends Model
         'product_code',
         'created_at',
         'update_at',
+        'product_id',
         'created_by',
         'product_interest_item_id',
         'tenor_unit',

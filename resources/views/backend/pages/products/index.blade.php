@@ -70,8 +70,8 @@
                                     <th width="5%">Sl</th>
                                     <th width="10%">Kode Product</th>
                                     <th width="10%">Nama Product</th>
-                                    <th width="10%">Tenor Pinjaman</th>
-                                    <th width="40%">Bunga</th>
+                                    <th width="20%">Kategori Pinjaman</th>
+                                    <th width="30%">Status</th>
                                     <th width="40%">Jumlah Pinjaman</th>
                                     <th width="15%">Action</th>
                                 </tr>
@@ -88,8 +88,8 @@
 
                                     <td>{{ $data['product_code']}}</td>
                                     <td>{{ $data['product_name']}}</td>
-                                    <td>{{ $data['tenor']}}</td>
-                                    <td>{{ $data['interest_rate']}}</td>
+                                    <td>{{ $data['category']}}</td>
+                                    <td>{{ $data['status']}}</td>
                                     <td>{{ $data['total_payment']}}</td>
                                     <td>
                                         @if (Auth::guard('admin')->user()->can('product.show'))

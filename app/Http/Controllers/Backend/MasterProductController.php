@@ -48,8 +48,16 @@ class MasterProductController extends Controller
                 $interest=ceil($record->interest_rate / $record->tenor).'%/'.$satuan;
             }
 
+            if($record->category == 0){
+                $kategori = 'Konsumtif';
+            }else{
+                $kategori = 'Produktif';
+            }
+
             $row['id']=$record->id;
+            $row['status']="Akses Terbatas";
             $row['product_code']=$record->product_code;
+            $row['category'] = $kategori;
             $row['product_name']=$record->product_name;
             $row['tenor']=$record->tenor.$satuan;
             $row['interest_rate']=$interest;
@@ -80,7 +88,7 @@ class MasterProductController extends Controller
                 $satuan=" Hari";
             }
 
-            $datas[$rows]= array("id"=>$row->id,"tenor"=>$row->tenor.$satuan,'interest_rate_calculation'=>$row->interest_rate_calculation,'btn'=>$row->id_master,'interest_rate'=>$row->interest_rate,'product_name'=>$row->product_name);
+            $datas[$rows]= array("id"=>$row->id,"tenor"=>$row->tenor.$satuan,'interest_rate_calculation'=>$row->interest_rate_calculation,'btn'=>$row->id_master,'interest_rate'=>$row->interest_rate,'product_name'=>$row->product_name,'status'=>"Akses Terbatas");
         }
 
         return Datatables::of($datas)->make(true);
@@ -141,11 +149,11 @@ class MasterProductController extends Controller
         if(count($cekAktif) != 0){
             $this->Checkcode($request->id_user);
         }
-        
+
         $save  = array(
             'id'=>GeneratorAccesLoan::getNextId(),
             'product_code' => $masterproduct->product_code,
-            'product_id' => $masterproduct->product_id,
+            'product_id' => $masterproduct->id,
             'created_by' =>Auth::guard('admin')->user()->id,
             'status' => 'Aktif',
             'tenor' => $tenor->tenor,
