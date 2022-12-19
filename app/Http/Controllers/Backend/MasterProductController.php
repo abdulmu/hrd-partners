@@ -16,7 +16,7 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 use DataTables;
 
-
+use function Ramsey\Uuid\v1;
 
 class MasterProductController extends Controller
 {
@@ -25,24 +25,27 @@ class MasterProductController extends Controller
     {
         $keyword="https://storage.googleapis.com/klikumkm/upload/images";
         $records = MasterProduct::Productlist();
+        // var_dump($records);
+        // exit();
+
         $datas = [];
         foreach($records as $record){
 
-            if($record->tenor_unit == 'monthly'){
-                $satuan=" Bulan";
-            }elseif($record->tenor_unit == 'weekly'){
-                $satuan=" Minggu";
-            }else{
-                $satuan=" Hari";
-            }
+            // if($record->tenor_unit == 'monthly'){
+            //     $satuan=" Bulan";
+            // }elseif($record->tenor_unit == 'weekly'){
+            //     $satuan=" Minggu";
+            // }else{
+            //     $satuan=" Hari";
+            // }
 
-            if($satuan == ' Hari'){
+            // if($satuan == ' Hari'){
 
-                $interest=$record->interest_rate.'%/'.$satuan;
-            }else{
+            //     $interest=$record->interest_rate.'%/'.$satuan;
+            // }else{
 
-                $interest=ceil($record->interest_rate / $record->tenor).'%/'.$satuan;
-            }
+            //     $interest=ceil($record->interest_rate / $record->tenor).'%/'.$satuan;
+            // }
 
             if($record->category == 0){
                 $kategori = 'Konsumtif';
@@ -55,8 +58,8 @@ class MasterProductController extends Controller
             $row['product_code']=$record->product_code;
             $row['category'] = $kategori;
             $row['product_name']=$record->product_name;
-            $row['tenor']=$record->tenor.$satuan;
-            $row['interest_rate']=$interest;
+            // $row['tenor']=$record->tenor.$satuan;
+            // $row['interest_rate']=$interest;
             $row['total_payment']=$this->rupiah($record->min_amount).'/'.$this->rupiah($record->max_amount);
 
             $datas[]=$row;
@@ -95,6 +98,7 @@ class MasterProductController extends Controller
         $products = MasterProduct::find($id);
         $cost = MasterProductPenaltyCost::where('product_id','=',159)->first();
         $data = MasterProduct::Productlist_id($id);
+
 
         if($data->tenor_unit == 'monthly'){
             $satuan=" Bulan";

@@ -48,18 +48,16 @@ class MasterProduct extends Model
     public static function Productlist(){
 
         $data = DB::connection('pgsql2')->table('master_products')
-        ->select('master_products.id','product_name','interest_code','interest_rate','interest_rate_calculation','tenor','tenor_unit','grace_period','min_amount','max_amount','master_products.product_code','category')
-        ->join('master_product_interest', 'master_product_interest.product_id', '=', 'master_products.id')
-        ->join('master_product_interest_items', 'master_product_interest_items.product_interest_id', '=', 'master_product_interest.id')
+        ->select('master_products.id','product_name','min_amount','max_amount','master_products.product_code','category')
         ->where('master_products.status', 2)
         ->groupBy('master_products.product_code')
         ->groupBy('master_products.id')
-        ->groupBy('master_product_interest.interest_code')
-        ->groupBy('master_product_interest_items.interest_rate')
-        ->groupBy('master_product_interest_items.interest_rate_calculation')
-        ->groupBy('master_product_interest_items.tenor')
-        ->groupBy('master_product_interest_items.tenor_unit')
-        ->groupBy('master_product_interest_items.grace_period')
+        // ->groupBy('master_product_interest.interest_code')
+        // ->groupBy('master_product_interest_items.interest_rate')
+        // ->groupBy('master_product_interest_items.interest_rate_calculation')
+        // ->groupBy('master_product_interest_items.tenor')
+        // ->groupBy('master_product_interest_items.tenor_unit')
+        // ->groupBy('master_product_interest_items.grace_period')
         ->get();
 
         return $data;
