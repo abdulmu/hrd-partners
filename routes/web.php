@@ -24,10 +24,10 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('product_interest_items', 'Backend\MasterProductController@product_interest')->name('admin.product_interest');
     Route::post('ProductInterestItems', 'Backend\MasterProductController@ProductInterestItems')->name('admin.ProductInterestItems');
 
-    Route::get('list_lending_json', 'Backend\lendingController@list_lending_json')->name('admin.list_lending_json');
-    Route::post('getLending', 'Backend\lendingController@getLending')->name('admin.getLending');
-    Route::post('confirms', 'Backend\lendingController@confirms')->name('admin.confirms');
-    Route::post('reject', 'Backend\lendingController@reject')->name('admin.reject');
+    Route::get('list_lending_json', 'Backend\LendingController@list_lending_json')->name('admin.list_lending_json');
+    Route::post('getLending', 'Backend\LendingController@getLending')->name('admin.getLending');
+    Route::post('confirms', 'Backend\LendingController@confirms')->name('admin.confirms');
+    Route::post('reject', 'Backend\LendingController@reject')->name('admin.reject');
 
     Route::post('getCompany', 'Backend\CompaniesController@getCompany')->name('admin.getCompany');
     Route::get('list_json_companies', 'Backend\CompaniesController@list_json')->name('admin.list_json_companies');
