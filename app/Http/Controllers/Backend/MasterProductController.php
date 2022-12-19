@@ -25,11 +25,7 @@ class MasterProductController extends Controller
     {
         $keyword="https://storage.googleapis.com/klikumkm/upload/images";
         $records = MasterProduct::Productlist();
-
-        // dd($records);
-
         $datas = [];
-
         foreach($records as $record){
 
             if($record->tenor_unit == 'monthly'){

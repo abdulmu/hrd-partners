@@ -208,7 +208,7 @@
       <div class="modal-content ">
         <div class="modal-header">
           <h3 class="modal-title">Person Form</h3>
-          <button type="button" class="close" data-dismiss="modal" onclick="close_table();" >
+          <button type="button" class="close" data-dismiss="modal" onclick="closes();" >
             <span aria-hidden="true">&times;</span>
           </button>
   
