@@ -257,10 +257,7 @@
                 success : function(data){
 
                     var obj = JSON.parse(data);
-                    // alert(data);
-                    // setTimeout(function(){
-                    // window.location.reload(1);
-                    // }, 1000);
+
                     $(".shows").show();
                     $('#update_id').val(obj.id);
                     $('#update_name').val(obj.name);
@@ -274,7 +271,7 @@
                     $('#update_product_name').val(obj.product_name);
                     $('#update_status').val(obj.status);
                     
-                    if(obj.status == 'confirmed'){
+                    if(obj.status == 'confirmed' || obj.status == 'rejected'){
                         $(".shows").hide();
                     }
 
