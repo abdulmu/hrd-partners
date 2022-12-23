@@ -25,26 +25,10 @@ class BorrowersController extends Controller
             $data = Borrowers::getData();
             $datas=null;
 
-            // var_dump($data);
-            // exit();
             foreach($data as $rows=>$row){
-                
-                // $cekAktif=GeneratorAccesLoan::where('user_id', $row->id)->get();
-                // if(count($cekAktif) == 0){
-                //     $access="Tidak Ada Akses";
-                // }else{
-                //     $access=0;
-                // }
-
+                    
                 $datas[$rows]= array("name"=>$row->name,"email"=>$row->email,'kyc_status'=>$row->kyc_status,'phone_number'=>$row->phone_number,'id'=>$row->id,'btn'=>$row->id);
-
-                // $btn = "<a href='javascript:void(0)' class='edit btn btn-primary btn-sm' onclick='generate($row->id)'>"."Buat Kode Akses"."</a>";
-                // $datas[$rows]= array("name"=>$row->name,"email"=>$row->email,"gender"=>$row->gender,"status_access"=>$access,'access_code'=>$row->acces_code,'kyc_status'=>$row->kyc_status,'btn'=>$row->id,'phone_number'=>$row->phone_number,'id'=>$row->id);
             }
-            // var_dump($datas);
-            // exit();
-        // echo json_encode($datas, true);
-        // exit();
 
             return Datatables::of($datas)->make(true);
     }  
@@ -60,36 +44,8 @@ class BorrowersController extends Controller
 
             $cekAktif = null;
 
-         
-                // var_dump($cekAktif);
-                // exit();
-                if($cekAktif ==  null){
-                    $status="Tidak Ada Akses";
-                $access = $row->id;
-                }else{
-                    var_dump($cekAktif);
-                    exit();
-                    $access = $row->id;
-
-                    // var_dump($cekAktif);
-                    // exit();
-                    // $access = $cekAktif;
-
-                    $status=$cekAktif->status;
-                }
-
                 $datas[$rows]= array("name"=>$row->name,"email"=>$row->email,'id'=>$row->id,'btn'=>$row->id,'acces_code'=>$row->acces_code,'status_access'=>$row->status);
-
-                // $datas[$rows]= array("name"=>$row->name,"email"=>$row->email,'kyc_status'=>$row->kyc_status,'phone_number'=>$row->phone_number,'id'=>$row->id,'btn'=>$row->id,'acces_code'=>$access,'status_access'=>$status);
-
-                // $btn = "<a href='javascript:void(0)' class='edit btn btn-primary btn-sm' onclick='generate($row->id)'>"."Buat Kode Akses"."</a>";
-                // $datas[$rows]= array("name"=>$row->name,"email"=>$row->email,"gender"=>$row->gender,"status_access"=>$access,'access_code'=>$row->acces_code,'kyc_status'=>$row->kyc_status,'btn'=>$row->id,'phone_number'=>$row->phone_number,'id'=>$row->id);
             }
-            // var_dump($datas);
-            // exit();
-        // echo json_encode($datas, true);
-        // exit();
-
             return Datatables::of($datas)->make(true);
     }  
     public function list_borrowers_ajax(Request $request)

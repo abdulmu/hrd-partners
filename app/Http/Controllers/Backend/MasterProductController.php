@@ -87,7 +87,7 @@ class MasterProductController extends Controller
                 $satuan=" Hari";
             }
 
-            $datas[$rows]= array("id"=>$row->id,"tenor"=>$row->tenor.$satuan,'interest_rate_calculation'=>$row->interest_rate_calculation,'btn'=>$row->id_master,'interest_rate'=>$row->interest_rate,'product_name'=>$row->product_name,'status'=>"Akses Terbatas");
+            $datas[$rows]= array("id"=>$row->id,"tenor"=>$row->tenor.$satuan,'interest_rate_calculation'=>$row->interest_rate_calculation,'btn'=>$row->id_master,'interest_rate'=>$row->interest_rate.'%','product_name'=>$row->product_name,'status'=>"Akses Terbatas");
         }
 
         return Datatables::of($datas)->make(true);

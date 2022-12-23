@@ -162,8 +162,8 @@
         </form>
         </div>
         <div class="modal-footer float-left">
-          <button type="button" id="confirms" class="btn btn-primary ">Terima</button>
-          <button type="button" id="reject" class="btn btn-danger btns">Tolak</button>
+          <button type="button" id="confirms" class="btn btn-primary shows ">Terima</button>
+          <button type="button" id="reject" class="btn btn-danger btns shows">Tolak</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -261,6 +261,7 @@
                     // setTimeout(function(){
                     // window.location.reload(1);
                     // }, 1000);
+                    $(".shows").show();
                     $('#update_id').val(obj.id);
                     $('#update_name').val(obj.name);
                     $('#update_loan_code').val(obj.loan_code);
@@ -273,6 +274,10 @@
                     $('#update_product_name').val(obj.product_name);
                     $('#update_status').val(obj.status);
                     
+                    if(obj.status == 'confirmed'){
+                        $(".shows").hide();
+                    }
+
                     // $('#update_kyc_status').val(obj.kyc_status);
 
 
