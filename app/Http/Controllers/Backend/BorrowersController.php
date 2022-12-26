@@ -26,7 +26,7 @@ class BorrowersController extends Controller
             $datas=null;
 
             foreach($data as $rows=>$row){
-                    
+
                 $datas[$rows]= array("name"=>$row->name,"email"=>$row->email,'kyc_status'=>$row->kyc_status,'phone_number'=>$row->phone_number,'id'=>$row->id,'btn'=>$row->id);
             }
 
@@ -38,13 +38,10 @@ class BorrowersController extends Controller
             $data = Borrowers::getBorrowers();
             $datas=null;
 
-            // var_dump($data);
-            // exit();
             foreach($data as $rows=>$row){
 
-            $cekAktif = null;
-
-                $datas[$rows]= array("name"=>$row->name,"email"=>$row->email,'id'=>$row->id,'btn'=>$row->id,'acces_code'=>$row->acces_code,'status_access'=>$row->status);
+                $cekAktif = null;
+                $datas[$rows]= array("name"=>$row->name,"email"=>$row->email,'id'=>$row->id,'btn'=>$row->id,'acces_code'=>$row->acces_code,'status_access'=>$row->status,'phone_number'=>$row->phone_number);
             }
             return Datatables::of($datas)->make(true);
     }  
@@ -80,56 +77,15 @@ class BorrowersController extends Controller
         $record['plafon_use']=$this->rupiah($use_plafon1);
         $record['plafon_active']=$this->rupiah($use_plafon->total);
 
-
         echo json_encode($record,true);
     }
     public function update(Request $request, int $id)
     {
-
-        // if (is_null($this->user) || !$this->user->can('admin.edit')) {
-        //     abort(403, 'Sorry !! You are Unauthorized to edit any admin !');
-        // }
-
-        // // TODO: You can delete this in your local. This is for heroku publish.
-        // // This is only for Super Admin role,
-        // // so that no-one could delete or disable it by somehow.
-        // if ($id === 1) {
-        //     session()->flash('error', 'Sorry !! You are not authorized to update this Admin as this is the Super Admin. Please create new one if you need to test !');
-        //     return back();
-        // }
-
         $data=$request->email;
-
-
-        // // Create New Admin
         $borrowers = Borrowers::getDataBorrowers($id);
-
-        // dd($borrowers);
-        // exit();
-
-        // // Validation Data
-        // $request->validate([
-        //     'name' => 'required|max:50',
-        //     'email' => 'required|max:100|email|unique:admins,email,' . $id,
-        //     'password' => 'nullable|min:6|confirmed',
-        // ]);
-
-
         $borrowers->name = $request->name;
         $borrowers->email = $request->email;
-        // $admin->username = $request->username;
-        // if ($request->password) {
-        //     $admin->password = Hash::make($request->password);
-        // }
         $borrowers->save();
-
-        // $admin->roles()->detach();
-        // if ($request->roles) {
-        //     $admin->assignRole($request->roles);
-        // }
-
-        // session()->flash('success', 'Admin has been updated !!');
-        // return back();
     } 
     public function rupiah($angka){
 

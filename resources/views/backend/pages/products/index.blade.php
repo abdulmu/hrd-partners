@@ -138,6 +138,7 @@
                         <th>Nama Peminjam</th>
                         <th>Status</th>
                         <th>Akses kode</th>
+                        <th>Phone Number</th>
                         <th>Aksi</th>
                       </tr>
                     </thead>
@@ -259,7 +260,6 @@
                 type : 'post',
                 data: { "_token": "{{ csrf_token() }}","product_id":product_id,"id_user":id,"product_interest_code":product_interest_code},
                 success : function(data){
-                    // alert(data);
                     $('#text_target').text(data);
                     $("#modalBorrowers").modal('hide');
                     $("#showgenerate").modal('show');
@@ -356,6 +356,7 @@
                 {data: 'name', name: 'name'},
                 {data: 'status_access', name: 'status_access'},
                 {data: 'acces_code', name: 'acces_code'},
+                {data: 'phone_number', name: 'phone_number'},
                 {data: 'btn', name: 'btn', orderable: false, searchable: false},
             ],
             "columnDefs": [

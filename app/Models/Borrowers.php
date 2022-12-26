@@ -90,7 +90,7 @@ class Borrowers extends Model
     public static function getBorrowers(){
 
         $data = DB::connection('pgsql2')->table('users')
-                ->select('staff_id','borrower_id','email','name','users.id as id','generator_acces_loan.status','acces_code')
+                ->select('staff_id','borrower_id','email','name','users.id as id','generator_acces_loan.status','acces_code','phone_number')
                 ->join('user_phone_numbers', 'user_phone_numbers.id', '=', 'users.user_phone_number_id')
                 ->join('borrowers', 'user_phone_numbers.id', '=', 'borrowers.user_phone_number_id')
                 ->LeftJoin('generator_acces_loan', 'generator_acces_loan.user_id', '=', 'users.id')
