@@ -95,6 +95,7 @@ class Borrowers extends Model
                 ->join('borrowers', 'user_phone_numbers.id', '=', 'borrowers.user_phone_number_id')
                 ->LeftJoin('generator_acces_loan', 'generator_acces_loan.user_id', '=', 'users.id')
                 ->groupBy('users.id')
+                ->groupBy('user_phone_numbers.phone_number')
                 ->groupBy('generator_acces_loan.status')
                 ->groupBy('generator_acces_loan.acces_code')
 

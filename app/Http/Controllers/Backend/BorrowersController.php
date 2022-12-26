@@ -37,7 +37,6 @@ class BorrowersController extends Controller
 
             $data = Borrowers::getBorrowers();
             $datas=null;
-
             foreach($data as $rows=>$row){
 
                 $cekAktif = null;
