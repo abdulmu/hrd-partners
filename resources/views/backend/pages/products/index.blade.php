@@ -158,6 +158,49 @@
   </div><!-- /.modal -->
 
 
+  <div class="modal fade " id="modalSimulasi" role="dialog">
+    <div class="modal-dialog extra">
+      <div class="modal-content ">
+  
+        <div class="modal-header">
+          <h3 class="modal-title">Person Form</h3>
+          <button type="button" class="close"  onclick="close_simulasi();" >
+            <span aria-hidden="true">&times;</span>
+          </button>
+  
+        </div>
+        <div class="modal-body form text-center">
+        <div class="container" id='img_target_invoice'>
+        </div>
+        <br>
+
+        <input type="text" class="form-control" id='nominal' readonly>
+        <input type="text" class="form-control" id='periode_pinjam' readonly>
+
+        <table class='table'>
+          <thead>
+            <tr>
+                <td>No</td>
+                <td>Total Angsuran</td>
+                <td>Pokok Pinjaman</td>
+                <td>Bunga</td>
+                <td>Tanggal Bayar</td>
+            </tr>
+          </thead>
+            <tbody id='tabl'>
+          </tbody>
+        </table>
+
+        </div>
+        <!-- <div class="modal-footer text-center">
+          <button type="button" id="btnSave" onclick="confirm_send('Terima')" class="btn btn-primary btns ">Terima</button>
+          <button type="button" class="btn btn-danger btns" onclick="confirm_send('Tolak')">Tolak</button>
+        </div> -->
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+
   <div class="modal fade " id="modalInterest" role="dialog">
     <div class="modal-dialog extra">
       <div class="modal-content ">
@@ -179,10 +222,10 @@
             <table id="tabelinterest" class="table table-bordered table-striped table-hover">
                     <thead>
                       <tr class="bg-info">
-                        <th>product_name</th>
-                        <th>tenor</th>
-                        <th>interest_rate_calculation</th>
-                        <th>interest_rate</th>
+                        <th>Nama Produk</th>
+                        <th>Tenor Pinjaman</th>
+                        {{-- <th>Bunga</th> --}}
+                        <th>Bunga</th>
                         <th>id</th>
                         <th>Aksi</th>
                       </tr>
@@ -293,7 +336,7 @@
             "columns": [
                 {data: 'product_name', name: 'product_name'},
                 {data: 'tenor', name: 'tenor'},
-                {data: 'interest_rate_calculation', name: 'interest_rate_calculation'},
+                // {data: 'interest_rate_calculation', name: 'interest_rate_calculation'},
                 {data: 'interest_rate', name: 'interest_rate'},
                 {data: 'id', name: 'id'},
                 {data: 'btn', name: 'btn', orderable: false, searchable: false},
@@ -303,7 +346,7 @@
             { 
                 "targets": [ -1 ], //last column
                 "render": function ( data, type, row ) {
-                    return "<a class=\"btn btn-xs btn-outline-info\" href=\"javascript:void(0)\" title=\"View\" onclick=\"confirm("+row.id+")\" data-target=\"#modalBorrowers\">Tambah Akses</a>";
+                    return "<a class=\"btn btn-xs btn-outline-info\" href=\"javascript:void(0)\" title=\"View\" onclick=\"confirm("+row.id+")\" data-target=\"#modalBorrowers\">Tambah Akses</a> <a class=\"btn btn-xs btn-outline-info\" href=\"javascript:void(0)\" title=\"View\" onclick=\"simulasi_pinjam("+row.id+")\" data-target=\"#modalBorrowers\">Simulasi Pinjaman</a>";
                 },
                 "orderable": false, //set not orderable
                 },
@@ -327,7 +370,59 @@
 
         }
 
-        
+        function simulasi_pinjam(id){
+
+          // alert(id);
+          $('#modalInterest').hide();
+          $("#modalSimulasi").modal('show');
+          $('.modal-title').text('Simulasi Pinjaman');
+          var urls="{{route('admin.simulasi')}}";
+
+          $.ajax({
+          url : urls,
+          type: "POST",
+          dataType: "JSON",
+          data: { "_token": "{{ csrf_token() }}","id":id},
+          success: function(data)
+          {
+            console.log(data);
+            $('#tabl').html('');
+            let hitung= 0;
+            $.each(data, function(i, item) {
+            hitung ++;
+            var numbers=item.tenors ^ 0;
+            console.log(numbers);
+            // alert(item.tenors);
+            if(hitung === 1){
+              $('#tabl').append('<tr><td>'+hitung+'</td><td>'+item.angsuran+'</td><td>'+item.pokok+'</td><td>'+item.bunga_per_bulan+'</td><td>'+item.tanggal_bayar+'</td></tr>');
+
+                var tanggal= "<?php echo date('d-m-Y')?>";
+                if(item.type == 'harian'){
+                  $('#nominal').val('Nominal Peminjaman: '+item.nominal_pinjaman +' Dengan Bunga '+item.persentase_bunga +'%/Hari');
+                }else{
+                  $('#nominal').val('Nominal Peminjaman: '+item.nominal_pinjaman +' Dengan Bunga '+item.persentase_bunga +'%/Bulan');
+                }
+                $('#periode_pinjam').val('Tenor: '+item.tenor +' Dengan Tanggal Simulasi Pencairan ' + tanggal);
+                $('#total_bayar').val('Total Pembayaran: '+item.total_bayar);
+            }else if(hitung > numbers ){
+
+            }else{
+              $('#tabl').append('<tr><td>'+hitung+'</td><td>'+item.angsuran+'</td><td>'+item.pokok+'</td><td>'+item.bunga_per_bulan+'</td><td>'+item.tanggal_bayar+'</td></tr>');
+            }
+
+          });
+
+
+          }
+        });
+
+        }
+
+        function close_simulasi(){
+// alert(33);
+          $("#modalInterest").modal('show');
+
+        }
         
         function confirm(id){
 

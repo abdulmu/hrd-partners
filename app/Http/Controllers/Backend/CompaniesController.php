@@ -30,27 +30,16 @@ class CompaniesController extends Controller
             $data = Company::all();
             $datas=null;
 
-            // foreach($data as $rows=>$row){
-
-            //     if($row->acces_code == null || $row->acces_code == ""){
-            //         $access="Tidak Ada Akses";
-            //     }else{
-            //         $access=$row->status_code;
-
-            //     }
-
-            //     // $btn = "<a href='javascript:void(0)' class='edit btn btn-primary btn-sm' onclick='generate($row->id)'>"."Buat Kode Akses"."</a>";
-            //     $datas[$rows]= array("name"=>$row->name,"email"=>$row->email,"gender"=>$row->gender,"status_access"=>$access,'access_code'=>$row->acces_code,'kyc_status'=>$row->kyc_status,'btn'=>$row->id,'phone_number'=>$row->phone_number,'id'=>$row->id);
-            // }
-
             return Datatables::of($data)->make(true);
     }  
 
     public function index()
     {
-        // if (is_null($this->user) || !$this->user->can('admin.view')) {
-        //     abort(403, 'Sorry !! You are Unauthorized to view any admin !');
-        // }
+        
+        if (is_null($this->user) || !$this->user->can('admin.view')) {
+            abort(403, 'Sorry !! You are Unauthorized to view any admin !');
+        }
+
         $banks = Bank::all();
         
 
@@ -77,8 +66,6 @@ class CompaniesController extends Controller
             abort(403, 'Sorry !! You are Unauthorized to create any admin !');
         }
 
-        // Validation Data
-
         $status=true;
         if($request->status == 'false'){
             $status=false;
@@ -104,25 +91,12 @@ class CompaniesController extends Controller
         $companies->save();
 
 
-        // if ($request->roles) {
-        //     $admin->assignRole($request->roles);
-        // }
-
         session()->flash('success', 'Data has been created !!');
         return redirect()->route('admin.companies.index');
     }
     
     public function update(Request $request, int $id)
     {
-        // if (is_null($this->user) || !$this->user->can('admin.edit')) {
-        //     abort(403, 'Sorry !! You are Unauthorized to edit any admin !');
-        // }
-
-
-        // if ($id === 1) {
-        //     session()->flash('error', 'Sorry !! You are not authorized to update this Admin as this is the Super Admin. Please create new one if you need to test !');
-        //     return back();
-        // }
 
         // Create New Admin
         $update = Company::find($id);

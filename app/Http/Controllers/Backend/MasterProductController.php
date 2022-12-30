@@ -21,31 +21,25 @@ use function Ramsey\Uuid\v1;
 class MasterProductController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('admin')->user();
+            return $next($request);
+        });
+    }
+
     public function index(Request $request)
     {
+        if (is_null($this->user) || !$this->user->can('admin.view')) {
+            abort(403, 'Sorry !! You are Unauthorized to view any admin !');
+        }
+
         $keyword="https://storage.googleapis.com/klikumkm/upload/images";
         $records = MasterProduct::Productlist();
-        // var_dump($records);
-        // exit();
 
         $datas = [];
         foreach($records as $record){
-
-            // if($record->tenor_unit == 'monthly'){
-            //     $satuan=" Bulan";
-            // }elseif($record->tenor_unit == 'weekly'){
-            //     $satuan=" Minggu";
-            // }else{
-            //     $satuan=" Hari";
-            // }
-
-            // if($satuan == ' Hari'){
-
-            //     $interest=$record->interest_rate.'%/'.$satuan;
-            // }else{
-
-            //     $interest=ceil($record->interest_rate / $record->tenor).'%/'.$satuan;
-            // }
 
             if($record->category == 0){
                 $kategori = 'Konsumtif';
@@ -71,11 +65,7 @@ class MasterProductController extends Controller
     public function ProductInterestItems(Request $request){
 
         $data = MasterProductInterestItem::getDataItem((int)$request->id);
-
-        // dd($data);
         $datas=null;
-
-
 
         foreach ($data as $rows => $row) {
 
@@ -87,10 +77,57 @@ class MasterProductController extends Controller
                 $satuan=" Hari";
             }
 
-            $datas[$rows]= array("id"=>$row->id,"tenor"=>$row->tenor.$satuan,'interest_rate_calculation'=>$row->interest_rate_calculation,'btn'=>$row->id_master,'interest_rate'=>$row->interest_rate.'%','product_name'=>$row->product_name,'status'=>"Akses Terbatas");
+            $datas[$rows]= array("id"=>$row->id,"tenor"=>$row->tenor.$satuan,'interest_rate_calculation'=>$row->interest_rate_calculation,'btn'=>$row->id_master,'interest_rate'=>$row->interest_rate.'% /'.$row->interest_rate_calculation,'product_name'=>$row->product_name,'status'=>"Akses Terbatas");
         }
 
         return Datatables::of($datas)->make(true);
+    }
+
+    public function simulasi(Request $request){
+
+        $products = MasterProductInterestItem::find($request->id);
+
+
+        if($products->tenor_unit == 'daily'){
+
+            $i=1;
+            $nominal_pinjam = 10000000;
+            $total_periode=(int)$products->tenor;
+            $persentase_bunga = (float)$products->interest_rate;
+            $data['interest_rate_calculation'] = $products->interest_rate_calculation;
+            $month_sched = date('d-m-Y');
+            $pokok = $nominal_pinjam ;
+            $bunga = $nominal_pinjam * $persentase_bunga / 100 * $total_periode ;
+            $total_bayar = $pokok + $bunga;
+            $tambah_hari=" +".$total_periode."day";
+            $tanggal = date("d-M-Y",strtotime($month_sched.$tambah_hari));
+            $data[$i]=array('bunga'=>$this->rupiah($bunga),'nominal_pinjaman'=>$this->rupiah($nominal_pinjam),'tanggal_bayar'=>$tanggal,'pokok'=>$this->rupiah($pokok),'bunga_per_bulan'=>$this->rupiah($bunga),'angsuran'=>$this->rupiah($total_bayar),'tenor'=>$total_periode.' Hari','total_bayar'=>$this->rupiah($total_bayar),'persentase_bunga'=>$persentase_bunga,'tenors'=>$total_periode);
+            
+        }else{
+
+            $i=1;
+            $nominal_pinjam = 10000000;
+            $total_periode=(int)$products->tenor;
+            $persentase_bunga = (float)$products->interest_rate;
+            $data['interest_rate_calculation'] = $products->interest_rate_calculation;
+            $month_sched = date('d-m-Y');
+            $pokok = $nominal_pinjam / $total_periode;
+            $bunga = $nominal_pinjam * $persentase_bunga / 100 ;
+            $total_bayar = $pokok + $bunga;
+            while($i <= $total_periode) {
+                    
+                $tambah_bulan=" +".$i."month";
+                $tanggal[$i] = date("d-M-Y",strtotime($month_sched.$tambah_bulan));
+                $data[$i]=array('bunga'=>$this->rupiah($bunga),'nominal_pinjaman'=>$this->rupiah($nominal_pinjam),'tanggal_bayar'=>$tanggal[$i],'pokok'=>$this->rupiah($pokok),'bunga_per_bulan'=>$this->rupiah($bunga),'angsuran'=>$this->rupiah($total_bayar),'tenor'=>$total_periode.' Bulan','total_bayar'=>$this->rupiah($total_bayar),'persentase_bunga'=>$persentase_bunga,'tenors'=>$total_periode);
+                
+                $i++;
+            }
+        }
+
+
+        echo json_encode($data,true);
+        exit();
+
     }
 
     public function show(int $id)

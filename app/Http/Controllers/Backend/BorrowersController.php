@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Borrowers;
 use App\Models\GeneratorAccesLoan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use DataTables;
 
@@ -13,9 +14,19 @@ use function Ramsey\Uuid\v1;
 
 class BorrowersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('admin')->user();
+            return $next($request);
+        });
+    }
     
     public function index(Request $request)
     {
+        if (is_null($this->user) || !$this->user->can('admin.view')) {
+            abort(403, 'Sorry !! You are Unauthorized to view any admin !');
+        }
         return view('backend.pages.borrowers.index');
     }  
 

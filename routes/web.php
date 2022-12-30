@@ -23,6 +23,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('generate', 'Backend\MasterProductController@generate')->name('admin.generate');
     Route::post('product_interest_items', 'Backend\MasterProductController@product_interest')->name('admin.product_interest');
     Route::post('ProductInterestItems', 'Backend\MasterProductController@ProductInterestItems')->name('admin.ProductInterestItems');
+    Route::post('simulasi', 'Backend\MasterProductController@simulasi')->name('admin.simulasi');
 
     Route::get('list_lending_json', 'Backend\LendingController@list_lending_json')->name('admin.list_lending_json');
     Route::post('getLending', 'Backend\LendingController@getLending')->name('admin.getLending');
