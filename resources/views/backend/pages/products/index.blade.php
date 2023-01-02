@@ -110,7 +110,6 @@
             </div>
         </div>
         <!-- data table end -->
-        
     </div>
 </div>
 
@@ -149,10 +148,6 @@
             </div>
           </form>
         </div>
-        <!-- <div class="modal-footer text-center">
-          <button type="button" id="btnSave" onclick="confirm_send('Terima')" class="btn btn-primary btns ">Terima</button>
-          <button type="button" class="btn btn-danger btns" onclick="confirm_send('Tolak')">Tolak</button>
-        </div> -->
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
@@ -192,10 +187,6 @@
         </table>
 
         </div>
-        <!-- <div class="modal-footer text-center">
-          <button type="button" id="btnSave" onclick="confirm_send('Terima')" class="btn btn-primary btns ">Terima</button>
-          <button type="button" class="btn btn-danger btns" onclick="confirm_send('Tolak')">Tolak</button>
-        </div> -->
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
@@ -237,10 +228,6 @@
             </div>
           </form>
         </div>
-        <!-- <div class="modal-footer text-center">
-          <button type="button" id="btnSave" onclick="confirm_send('Terima')" class="btn btn-primary btns ">Terima</button>
-          <button type="button" class="btn btn-danger btns" onclick="confirm_send('Tolak')">Tolak</button>
-        </div> -->
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
@@ -419,9 +406,9 @@
         }
 
         function close_simulasi(){
-// alert(33);
-          $("#modalInterest").modal('show');
-
+          setTimeout(function(){
+            window.location.reload(1);
+          }, 1000);
         }
         
         function confirm(id){

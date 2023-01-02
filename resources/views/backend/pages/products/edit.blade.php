@@ -52,44 +52,44 @@ Admin Edit - Admin Panel
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">Nama Product</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="{{ $products->product_name }}">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="{{ $products->product_name }}" readonly>
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="email">Kode Product</label>
-                                <input type="text" class="form-control" id="email" name="email" placeholder="Enter Email" value="{{ $products->product_code }}">
+                                <input type="text" class="form-control" id="email" name="email" placeholder="Enter Email" value="{{ $products->product_code }}" readonly>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="password">tenor</label>
-                                <input type="tenor" class="form-control" id="tenor" name="tenor" value="{{ $products->tenor }}">
+                                <input type="tenor" class="form-control" id="tenor" name="tenor" value="{{ $products->tenor }}" readonly>
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="password_confirmation">Bunga</label>
-                                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" value="{{ $products->interest }}">
+                                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" value="{{ $products->interest }}" readonly>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-6">
                                 <label for="username">Jumlah Pinjaman</label>
-                                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required value="{{ $products->total_payment }}">
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required value="{{ $products->total_payment }}" readonly>
                             </div>
                             <div class="form-group col-md-6 col-sm-6">
                                 <label for="username">Denda Keterlambatan</label>
-                                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required value="{{ $products->total_payment }}">
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required value="{{ $products->total_payment }}" readonly>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-6">
                                 <label for="username">Deskripsi Produk</label>
-                                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required value="{{ $products->total_payment }}">
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required value="{{ $products->total_payment }}" readonly>
                             </div>
                             <div class="form-group col-md-6 col-sm-6">
                                 <label for="username">Denda Keterlambatan</label>
-                                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required value="{{ $products->total_payment }}">
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required value="{{ $products->total_payment }}" readonly>
                             </div>
                         </div>
 

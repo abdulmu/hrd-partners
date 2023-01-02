@@ -98,8 +98,8 @@ class Borrowers extends Model
                 ->groupBy('user_phone_numbers.phone_number')
                 ->groupBy('generator_acces_loan.status')
                 ->groupBy('generator_acces_loan.acces_code')
-                // ->where('generator_acces_loan.status', '')
-
+                // ->where('generator_acces_loan.status', '!=','Non Aktif')
+                // ->orWhere('generator_acces_loan.status', 'Aktif')
 
                 ->get();
 

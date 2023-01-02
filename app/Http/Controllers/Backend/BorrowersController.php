@@ -51,7 +51,9 @@ class BorrowersController extends Controller
             foreach($data as $rows=>$row){
 
                 $cekAktif = null;
-                $datas[$rows]= array("name"=>$row->name,"email"=>$row->email,'id'=>$row->id,'btn'=>$row->id,'acces_code'=>$row->acces_code,'status_access'=>$row->status,'phone_number'=>$row->phone_number);
+                if($row->status == '' || $row->status == 'Aktif'){
+                    $datas[$rows]= array("name"=>$row->name,"email"=>$row->email,'id'=>$row->id,'btn'=>$row->id,'acces_code'=>$row->acces_code,'status_access'=>$row->status,'phone_number'=>$row->phone_number);
+                }
             }
             return Datatables::of($datas)->make(true);
     }  

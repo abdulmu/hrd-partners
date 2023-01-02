@@ -52,8 +52,6 @@ class MasterProductController extends Controller
             $row['product_code']=$record->product_code;
             $row['category'] = $kategori;
             $row['product_name']=$record->product_name;
-            // $row['tenor']=$record->tenor.$satuan;
-            // $row['interest_rate']=$interest;
             $row['total_payment']=$this->rupiah($record->min_amount).'/'.$this->rupiah($record->max_amount);
 
             $datas[]=$row;
@@ -86,7 +84,6 @@ class MasterProductController extends Controller
     public function simulasi(Request $request){
 
         $products = MasterProductInterestItem::find($request->id);
-
 
         if($products->tenor_unit == 'daily'){
 
@@ -124,18 +121,19 @@ class MasterProductController extends Controller
             }
         }
 
-
         echo json_encode($data,true);
         exit();
-
     }
 
     public function show(int $id)
     {
         $products = MasterProduct::find($id);
-        $cost = MasterProductPenaltyCost::where('product_id','=',159)->first();
-        $data = MasterProduct::Productlist_id($id);
+        $penalty = MasterProductPenaltyCost::where('product_id','=',$products->id)->get();
+        $cost = MasterProductOtherCost::where('product_id','=',$products->id)->get();
+        $interest_ = MasterProductInterestItem::where('product_id','=',$products->id)->get();
 
+
+        $data = MasterProduct::Productlist_id($id);
 
         if($data->tenor_unit == 'monthly'){
             $satuan=" Bulan";
@@ -153,25 +151,69 @@ class MasterProductController extends Controller
             $interest=ceil($data->interest_rate / $data->tenor).'%/'.$satuan;
         }
 
-        if($cost->category == 'once'){
-            $coststatus=' Sekali Bayar';
-        }else{
-            $coststatus=' / hari';
+        $kategori = "Productif";
+        if($data->category == 2){
+            $kategori = "Konsumtif";
         }
 
+        $penaltys = [];
+        if(!empty($penalty)){
+            foreach($penalty as $rows=>$row){
+                $category = 'Harian';
+                if($row->category == 'once'){
+                    $category = 'Sekali Bayar';
+                }
+                $penaltys[$rows] = array('value'=>$row->value,'kategori'=>$category);
+            }
+        }
+
+        $costs = [];
+        if(!empty($cost)){
+            foreach($cost as $rows=>$row){
+                $type = 'Persentase';
+                $nilai = $row->value.' % Dari Nilai Pinjaman';
+                if($row->type == 2){
+                    $type = 'Rupiah';
+                    $nilai = $this->rupiah($row->value);
+                }
+                $costs[$rows] = array('value'=>$nilai,'type'=>$type,'cost_name'=>$row->cost_name);
+            }
+        }
+
+
+        $interests = [];
+        if(!empty($interest_)){
+            foreach($interest_ as $rows=>$row){
+                $type = 'Harian';
+                $nilai = $row->value.' % Dari Nilai Pinjaman';
+                if($row->tenor_unit == "monthly"){
+                    $type = 'Bulan';
+                    $nilai = $this->rupiah($row->value);
+
+                }
+                $interests[$rows] = array('tenor'=>$row->tenor,'interest_rate'=>$row->interest_rate);
+            }
+        }
+
+        // dd($interests);
+        // exit();
+
         $products['id']=$data->id;
-        $products['denda']=$cost->value.$coststatus;
+        $products['denda']='';
+
         $products['product_code']=$data->product_code;
-        $products['category']=$data->category;
+        $products['category']=$kategori;
         $products['description']=$data->description;
         $products['product_name']=$data->product_name;
         $products['tenor']=$data->tenor.$satuan;
         $products['purpose']=$data->purpose;
         $products['interest_rate']=$interest;
+
+
         $products['total_payment']=$this->rupiah($data->min_amount).'/'.$this->rupiah($data->max_amount);
         
         $roles  = Role::all();
-        return view('backend.pages.products.show', compact('products', 'roles'));
+        return view('backend.pages.products.show', compact('products', 'roles','penaltys','costs','interests'));
     }
 
     public function generate(Request $request)
