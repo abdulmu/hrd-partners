@@ -68,6 +68,7 @@
                                     <th >Kode Peminjaman</th>
                                     <th >Nominal Pinjam</th>
                                     <th >Konfirmasi HRD</th>
+                                    <th >Tanggal Pinjaman</th>
                                     <th>Action</th>
                                     {{-- <th width="15%">Action</th> --}}
                                 </tr>
@@ -216,6 +217,8 @@
                 {data: 'loan_code', name: 'loan_code'},
                 {data: 'received_amount', name: 'received_amount'},
                 {data: 'status', name:'status'},
+                {data: 'created_at', name:'created_at'},
+
                 {data: 'btn', name: 'btn', orderable: false, searchable: false},
             ],
             "columnDefs": [
