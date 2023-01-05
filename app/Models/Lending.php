@@ -210,11 +210,12 @@ class Lending extends Model
 
     
         $data = DB::connection('pgsql2')->table('lendings')
-                ->select('lendings.loan_code','lendings.created_at','confirm_hrd.loan_amount','confirm_hrd.status','lendings.id','users.name','received_amount')
+                ->select('lendings.loan_code','lendings.created_at','confirm_hrd.loan_amount','confirm_hrd.status','lendings.id','users.name','received_amount','lendings.created_at')
                 ->join('confirm_hrd', 'confirm_hrd.lending_id', '=', 'lendings.id')
                 ->join('lending_borrowers', 'lendings.id', '=', 'lending_borrowers.lending_id')
                 ->join('borrowers', 'borrowers.id', '=', 'lending_borrowers.borrower_id')
                 ->join('users', 'users.borrower_id', '=', 'borrowers.id')
+                ->orderBy('lendings.id','desc')
                 ->get();
 
 
