@@ -163,7 +163,7 @@ class MasterProductController extends Controller
                 if($row->category == 'once'){
                     $category = 'Sekali Bayar';
                 }
-                $penaltys[$rows] = array('value'=>$row->value,'kategori'=>$category);
+                $penaltys[$rows] = array('value'=>$row->value.'%','kategori'=>$category);
             }
         }
 
