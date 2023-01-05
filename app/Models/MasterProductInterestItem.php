@@ -62,7 +62,7 @@ class MasterProductInterestItem extends Model
     public static function getDataItem($id)
     {
         $data = DB::connection('pgsql2')->table('master_products')
-        ->select('master_product_interest_items.id','product_name','tenor_unit','interest_rate_calculation','interest_rate','tenor','master_products.id as id_master')
+        ->select('master_product_interest_items.id','product_name','tenor_unit','interest_rate_calculation','interest_rate','tenor','master_products.id as id_master','product_code','master_products.max_amount','master_products.min_amount','master_products.id as product_id')
         ->join('master_product_interest_items', 'master_product_interest_items.product_id', '=', 'master_products.id')
         ->where('master_products.id', $id)
         ->get();

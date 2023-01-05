@@ -93,22 +93,14 @@ Admin Edit - Admin Panel
 
                             @foreach ($interests as $datasa=>$data)
                             <div class="form-group col-md-6 col-sm-6">
-                                <label for="username">Denda Keterlambatan</label>
+                                <label for="username">Tenor</label>
                                 <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required value="{{ $data['tenor']}}" readonly>
                             </div>
                             <div class="form-group col-md-6 col-sm-6">
-                                <label for="username">Satuan</label>
+                                <label for="username">Bunga</label>
                                 <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required value="{{ $data['interest_rate'] }}" readonly>
                             </div>
                         @endforeach
-                            {{-- <div class="form-group col-md-6 col-sm-12">
-                                <label for="password">tenor</label>
-                                <input type="tenor" class="form-control" id="tenor" name="tenor" value="{{ $products->tenor }}" readonly>
-                            </div>
-                            <div class="form-group col-md-6 col-sm-12">
-                                <label for="password_confirmation">Bunga</label>
-                                <input type="text" class="form-control" id="password_confirmation" name="password_confirmation" value="{{ $products->interest_rate }}" readonly>
-                            </div> --}}
                         </div>
 
                         <div class="form-row">

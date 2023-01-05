@@ -17,13 +17,19 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('users', 'Backend\UsersController', ['names' => 'admin.users']);
     Route::resource('admins', 'Backend\AdminsController', ['names' => 'admin.admins']);
     Route::resource('products', 'Backend\MasterProductController', ['names' => 'admin.products']);
+    Route::resource('productsInterestItem', 'Backend\MasterProductInterestItemController', ['names' => 'admin.productsInterestItem']);
     Route::resource('lendings', 'Backend\LendingController', ['names' => 'admin.lendings']);
     Route::resource('companies', 'Backend\CompaniesController', ['names' => 'admin.companies']);
+    Route::resource('borrowers', 'Backend\BorrowersController', ['names' => 'admin.borrowers']);
 
     Route::post('generate', 'Backend\MasterProductController@generate')->name('admin.generate');
     Route::post('product_interest_items', 'Backend\MasterProductController@product_interest')->name('admin.product_interest');
     Route::post('ProductInterestItems', 'Backend\MasterProductController@ProductInterestItems')->name('admin.ProductInterestItems');
     Route::post('simulasi', 'Backend\MasterProductController@simulasi')->name('admin.simulasi');
+
+    // Route::get('borrowers/show/{lenders}','Backend\BorrowersController@list_borrower_json')->name('lender.show');
+
+    // Route::post('borrowerAccess{{id}}', 'Backend\MasterProductController@simulasi')->name('admin.simulasi');
 
     Route::get('list_lending_json', 'Backend\LendingController@list_lending_json')->name('admin.list_lending_json');
     Route::post('getLending', 'Backend\LendingController@getLending')->name('admin.getLending');

@@ -184,19 +184,16 @@ class MasterProductController extends Controller
         $interests = [];
         if(!empty($interest_)){
             foreach($interest_ as $rows=>$row){
-                $type = 'Harian';
+                $type = 'Hari';
                 $nilai = $row->value.' % Dari Nilai Pinjaman';
                 if($row->tenor_unit == "monthly"){
                     $type = 'Bulan';
                     $nilai = $this->rupiah($row->value);
 
                 }
-                $interests[$rows] = array('tenor'=>$row->tenor,'interest_rate'=>$row->interest_rate);
+                $interests[$rows] = array('tenor'=>$row->tenor.' '.$type,'interest_rate'=>$row->interest_rate.' %/'.$type);
             }
         }
-
-        // dd($interests);
-        // exit();
 
         $products['id']=$data->id;
         $products['denda']='';
@@ -220,8 +217,8 @@ class MasterProductController extends Controller
     {
 
         $code = rand();
-        $masterproduct=MasterProduct::find($request->product_id);
         $tenor=MasterProductInterestItem::find($request->product_interest_code);
+        $masterproduct=MasterProduct::find($tenor->product_id);
 
         $cekAktif=GeneratorAccesLoan::where('user_id', $request->id_user)->where('status','Aktif')->where('product_code',$masterproduct->product_code)->get();
 

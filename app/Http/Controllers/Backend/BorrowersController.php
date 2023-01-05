@@ -57,7 +57,39 @@ class BorrowersController extends Controller
             }
             return Datatables::of($datas)->make(true);
     }  
+
+    public function show($id)
+    {
+
+        // dd($id);
+        // exit();
+        $data = Borrowers::getBorrowers();
+        $datas=null;
+        foreach($data as $rows=>$row){
+            $cekAktif = null;
+            if($row->status == '' || $row->status == 'Aktif'){
+                $datas[$rows]= array("name"=>$row->name,"email"=>$row->email,'id'=>$row->id,'btn'=>$row->id,'acces_code'=>$row->acces_code,'status_access'=>$row->status,'phone_number'=>$row->phone_number,"interest_id"=>$id);
+            }
+        }
+        
+        return view('backend.pages.products.borrowerAccess', compact('datas'));
+    }  
+
     public function list_borrowers_ajax(Request $request)
+    {
+        $data = Borrowers::getData();
+        return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+                    
+                    $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+    }  
+
+    public function list_borrowers_view(Request $request)
     {
         $data = Borrowers::getData();
         return Datatables::of($data)

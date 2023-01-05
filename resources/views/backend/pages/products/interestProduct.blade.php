@@ -2,29 +2,28 @@
 @extends('backend.layouts.master')
 
 @section('title')
-{{-- Admins - Admin Panel --}}
 @endsection
-
 @section('styles')
     <!-- Start datatable css -->
-    <style>
-        @media screen and (min-width: 676px) {
-            .extra {
-              max-width: 1000px; /* New width for default modal */
-        }
-        }
-        .text_mini{
-          font-size: 10 px;
-        }
-        .card-body{
-          max-height: calc(100vh - 200px);
-          overflow-y: auto;
-        }
-        div.dataTables_wrapper {
-              width: 1700px;
-              margin: 0 auto;
-          }
-      </style>
+<style>
+    @media screen and (min-width: 676px) {
+    .extra {
+        max-width: 1000px; /* New width for default modal */
+    }
+    }
+    .text_mini{
+    font-size: 10 px;
+    }
+    .card-body{
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+    }
+    div.dataTables_wrapper {
+        width: 1700px;
+        margin: 0 auto;
+    }
+</style>
+
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
@@ -42,6 +41,7 @@
                 <ul class="breadcrumbs pull-left">
                     <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
                     <li><span>Product</span></li>
+                    {{-- <li><span></span></li> --}}
                 </ul>
             </div>
         </div>
@@ -67,12 +67,13 @@
                         <table id="dataTable" class="text-center">
                             <thead class="bg-light text-capitalize">
                                 <tr>
-                                    <th width="5%">Sl</th>
+                                    <th width="5%">No</th>
                                     <th width="10%">Kode Product</th>
                                     <th width="10%">Nama Product</th>
-                                    <th width="20%">Kategori Pinjaman</th>
-                                    <th width="30%">Status</th>
-                                    <th width="40%">Jumlah Pinjaman</th>
+                                    <th width="10%">Tenor Pinjaman</th>
+                                    <th width="10%">Nominal Pinjam</th>
+                                    <th width="10%">Bunga</th>
+                                    {{-- <th width="40%">Jumlah Pinjaman</th> --}}
                                     <th width="15%">Action</th>
                                 </tr>
                             </thead>
@@ -83,22 +84,20 @@
 
                                     
                                @foreach ($datas as $datasa=>$data)
+                               {{-- {{ $ids=(int)$data['id'].'000'.$data['product_id']; }} --}}
                                <tr>  
                                     <td>{{ $loop->index+1 }}</td>
 
                                     <td>{{ $data['product_code']}}</td>
                                     <td>{{ $data['product_name']}}</td>
-                                    <td>{{ $data['category']}}</td>
-                                    <td>{{ $data['status']}}</td>
-                                    <td>{{ $data['total_payment']}}</td>
+                                    <td>{{ $data['tenor']}}</td>
+                                    <td>{{ $data['totalPayment']}}</td>
+                                    <td>{{ $data['interest_rate']}}</td>
+                                    {{-- <td>{{ $data['interest_rate']}}</td> --}}
                                     <td>
-                                        @if (Auth::guard('admin')->user()->can('product.show'))
-                                            <a class="btn btn-info btn-lg text-white" href="{{ route('admin.products.show', $data['id']) }}">Detail</a>
-                                        @endif
-                                        <a class="btn btn-info btn-lg text-white" href="{{ route('admin.productsInterestItem.show', $data['id']) }}">Pilih Tenor & Bunga</a>
 
-                                        {{-- <a type="button" class="btn btn-info btn-lg" data-toggle="modal" onclick="option_interest({{ $data['id']}})" data-target="#modalInterest">Akses Pinjaman</a> --}}
-                                        
+                                        <a class="btn btn-info btn-lg text-white" href="{{ route('admin.borrowers.show',(int)$data['id']) }}">Akses Pinjaman</a>
+
                                     </td>
                                 </tr>
                                @endforeach
