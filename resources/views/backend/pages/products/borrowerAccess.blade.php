@@ -282,6 +282,7 @@
         function generate(id){
 
             var is_id = '#'+id;
+            $('.modal-title').text('Akses Peminjam');
             // var product_id=$('#product_code').val();
             var product_interest_code=$(is_id).val();
             var isurl="{{ route('admin.generate') }}";
