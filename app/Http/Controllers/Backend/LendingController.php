@@ -116,22 +116,22 @@ class LendingController extends Controller
 
         $data['lending_id'] = $request->id;
         $data=json_encode($data);
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_URL,'https://p2p.klikumkm.co.id/api/v1/hrds/scoring');
-        curl_setopt($ch, CURLOPT_POSTFIELDS,$data);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json'
-        ));
+        // $ch = curl_init();
+        // curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        // curl_setopt($ch, CURLOPT_URL,'https://p2p.klikumkm.co.id/api/v1/hrds/scoring');
+        // curl_setopt($ch, CURLOPT_POSTFIELDS,$data);
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        // curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        //     'Content-Type: application/json'
+        // ));
 
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $hasil=curl_exec($ch);
-        $err = curl_error($ch);
-        curl_close ($ch);
-        $result=json_decode($hasil, true);
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // $hasil=curl_exec($ch);
+        // $err = curl_error($ch);
+        // curl_close ($ch);
+        // $result=json_decode($hasil, true);
 
         $table = ['lendings', 'lending_borrowers', 'confirm_hrd'];
 
