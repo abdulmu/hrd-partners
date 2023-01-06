@@ -67,12 +67,12 @@
                         <table id="dataTable" class="text-center">
                             <thead class="bg-light text-capitalize">
                                 <tr>
-                                    <th width="5%">No</th>
-                                    <th width="10%">Kode Product</th>
-                                    <th width="10%">Nama Product</th>
-                                    <th width="10%">Tenor Pinjaman</th>
-                                    <th width="10%">Nominal Pinjam</th>
-                                    <th width="10%">Bunga</th>
+                                    <th >No</th>
+                                    <th>Kode Product</th>
+                                    <th >Nama Product</th>
+                                    <th>Tenor Pinjaman</th>
+                                    <th>Nominal Pinjam</th>
+                                    <th>Bunga</th>
                                     {{-- <th width="40%">Jumlah Pinjaman</th> --}}
                                     <th width="15%">Action</th>
                                 </tr>

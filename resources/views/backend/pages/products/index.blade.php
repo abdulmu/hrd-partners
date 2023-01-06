@@ -67,13 +67,13 @@
                         <table id="dataTable" class="text-center">
                             <thead class="bg-light text-capitalize">
                                 <tr>
-                                    <th width="5%">Sl</th>
-                                    <th width="10%">Kode Product</th>
-                                    <th width="10%">Nama Product</th>
-                                    <th width="20%">Kategori Pinjaman</th>
-                                    <th width="30%">Status</th>
-                                    <th width="40%">Jumlah Pinjaman</th>
-                                    <th width="15%">Action</th>
+                                    <th >No</th>
+                                    <th>Kode Product</th>
+                                    <th>Nama Product</th>
+                                    <th>Kategori Pinjaman</th>
+                                    <th>Status</th>
+                                    <th>Jumlah Pinjaman</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -97,7 +97,6 @@
                                         @endif
                                         <a class="btn btn-info btn-lg text-white" href="{{ route('admin.productsInterestItem.show', $data['id']) }}">Pilih Tenor & Bunga</a>
 
-                                        {{-- <a type="button" class="btn btn-info btn-lg" data-toggle="modal" onclick="option_interest({{ $data['id']}})" data-target="#modalInterest">Akses Pinjaman</a> --}}
                                         
                                     </td>
                                 </tr>
