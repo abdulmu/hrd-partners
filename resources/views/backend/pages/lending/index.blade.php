@@ -274,12 +274,9 @@
                     $('#update_product_name').val(obj.product_name);
                     $('#update_status').val(obj.status);
                     
-                    if(obj.status == 'confirmed' || obj.status == 'rejected'){
+                    if(obj.status == 'confirmed' || obj.status == 'rejected' || obj.status == 'reject_hrd'){
                         $(".shows").hide();
                     }
-
-                    // $('#update_kyc_status').val(obj.kyc_status);
-
 
                 }
             })

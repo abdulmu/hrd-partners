@@ -96,7 +96,10 @@
                                     {{-- <td>{{ $data['interest_rate']}}</td> --}}
                                     <td>
 
-                                        <a class="btn btn-info btn-lg text-white" href="{{ route('admin.borrowers.show',(int)$data['id']) }}">Akses Pinjaman</a>
+                                      <a class="btn btn-info btn-lg text-white" href="{{ route('admin.borrowers.show',(int)$data['id']) }}">Akses Pinjaman</a>
+
+                                        {{-- <a class="btn btn-info btn-lg text-white" href="{{ route('admin.borrowers.show',(int)$data['id']) }}">Akses Pinjaman</a> --}}
+                                        <a class="btn btn-info btn-lg text-white" href="javascript:void(0)" title="View" onclick="simulasi_pinjam({{(int)$data['id']}})" data-target="#modalBorrowers">Simulasi Pinjaman</a>
 
                                     </td>
                                 </tr>

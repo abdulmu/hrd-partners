@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Lending;
+use App\Models\LendingBorrowers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
@@ -98,8 +99,7 @@ class LendingController extends Controller
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $hasil=curl_exec($ch);
-        // var_dump($hasil);
-        // exit();
+
         $err = curl_error($ch);
         curl_close ($ch);
         $result=json_decode($hasil, true);
@@ -133,10 +133,12 @@ class LendingController extends Controller
         curl_close ($ch);
         $result=json_decode($hasil, true);
 
-        var_dump($result);
-        exit();
+        $table = ['lendings', 'lending_borrowers', 'confirm_hrd'];
 
-        $data = Lending::CofirmUpdate($request->id,$status);
+        foreach($table as $row){            
+            $table = Lending::CofirmUpdate($request->id,$status,$row);
+        }
+
         session()->flash('success', 'Rejected Success !!');
         return back();
     }   

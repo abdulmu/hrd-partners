@@ -247,11 +247,16 @@ class Lending extends Model
 
         return $data;
     }
-    public static function CofirmUpdate($id,$status){
+    public static function CofirmUpdate($id,$status,$table){
 
-        $data = DB::connection('pgsql2')->table('confirm_hrd')
-            ->where('lending_id', $id)
-            ->update(['status' => $status]);
+        $coloum = 'lending_id';
+        if($table == 'lendings'){
+            $coloum = 'id';
+        }
+
+        $data = DB::connection('pgsql2')->table($table)
+        ->where($coloum, $id)
+        ->update(['status' => $status]);
 
         return $data;
     }
