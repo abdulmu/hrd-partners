@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Http;
 
 use DataTables;
 
+use function Ramsey\Uuid\v1;
 
 class LendingController extends Controller
 {
@@ -111,7 +112,7 @@ class LendingController extends Controller
     
     public function reject(Request $request)
     {
-        $status = 'rejected';
+        $status = 'reject_hrd';
 
         $data['lending_id'] = $request->id;
         $data=json_encode($data);
@@ -131,6 +132,9 @@ class LendingController extends Controller
         $err = curl_error($ch);
         curl_close ($ch);
         $result=json_decode($hasil, true);
+
+        var_dump($result);
+        exit();
 
         $data = Lending::CofirmUpdate($request->id,$status);
         session()->flash('success', 'Rejected Success !!');
