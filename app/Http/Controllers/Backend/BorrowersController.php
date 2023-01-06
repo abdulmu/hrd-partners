@@ -69,6 +69,8 @@ class BorrowersController extends Controller
             $cekAktif = null;
             if($row->status == '' || $row->status == 'Aktif'){
                 $datas[$rows]= array("name"=>$row->name,"email"=>$row->email,'id'=>$row->id,'btn'=>$row->id,'acces_code'=>$row->acces_code,'status_access'=>$row->status,'phone_number'=>$row->phone_number,"interest_id"=>$id);
+            }else{
+                $datas[$rows]= array("name"=>$row->name,"email"=>$row->email,'id'=>$row->id,'btn'=>$row->id,'acces_code'=>$row->acces_code,'status_access'=>$row->status,'phone_number'=>$row->phone_number,"interest_id"=>$id);
             }
         }
         
