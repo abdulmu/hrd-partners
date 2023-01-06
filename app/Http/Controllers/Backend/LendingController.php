@@ -105,14 +105,13 @@ class LendingController extends Controller
         $result=json_decode($hasil, true);
 
 
-        $table = ['lendings', 'lending_borrowers', 'confirm_hrd'];
+        // $table = ['lendings', 'lending_borrowers', 'confirm_hrd'];
 
-        foreach($table as $row){            
-            $table = Lending::CofirmUpdate($request->id,$status,$row);
-        }
+        // foreach($table as $row){            
+        //     $table = Lending::CofirmUpdate1($request->id,$status,$row);
+        // }
 
-
-        // $data = Lending::CofirmUpdate1($request->id,$status);
+        $data = Lending::CofirmUpdate1($request->id,$status);
         session()->flash('success', 'Confirm Success !!');
         return back();
     }   
