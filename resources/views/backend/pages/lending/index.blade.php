@@ -6,7 +6,6 @@
 @endsection
 
 @section('styles')
-    <!-- Start datatable css -->
     <style>
         @media screen and (min-width: 676px) {
             .extra {
@@ -70,7 +69,6 @@
                                     <th >Konfirmasi HRD</th>
                                     <th >Tanggal Pinjaman</th>
                                     <th>Action</th>
-                                    {{-- <th width="15%">Action</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -170,6 +168,46 @@
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
 
+
+  <div class="modal fade " id="modalSimulasi" role="dialog">
+    <div class="modal-dialog extra">
+      <div class="modal-content ">
+  
+        <div class="modal-header">
+          <h3 class="modal-title">Person Form</h3>
+          <button type="button" class="close" data-dismiss="modal" onclick="close_table();" >
+            <span aria-hidden="true">&times;</span>
+          </button>
+  
+        </div>
+        <div class="modal-body form text-center">
+        <div class="container" id='img_target_invoice'>
+        </div>
+        <br>
+
+        <input type="text" class="form-control" id='nominal' readonly>
+        <input type="text" class="form-control" id='periode_pinjam' readonly>
+
+        <table class='table'>
+          <thead>
+            <tr>
+                <td>No</td>
+                <td>Total Angsuran</td>
+                <td>Pokok Pinjaman</td>
+                <td>Bunga</td>
+                <td>Tanggal Bayar</td>
+            </tr>
+          </thead>
+            <tbody id='tabl'>
+          </tbody>
+        </table>
+
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+
 @endsection
 
 @section('scripts')
@@ -196,6 +234,7 @@
                 $( "#confirm" ).submit();
             });
         });
+
 
         if ($('#dataTable').length) {
             $('#dataTable').DataTable({
@@ -225,7 +264,7 @@
             { 
                 "targets": [ -1 ], //last column
                 "render": function ( data, type, row ) {
-                    return "<a class=\"btn btn-xs btn-outline-info\" data-toggle=\"modal\" title=\"View\" onclick=\"showData("+data+")\" data-target=\"#modalBorrowers\">Konfirmasi Pinjaman</a>";
+                    return "<a class=\"btn btn-xs btn-outline-info\" data-toggle=\"modal\" title=\"View\" onclick=\"showData("+data+")\" data-target=\"#modalBorrowers\">Konfirmasi Pinjaman</a><a class=\"btn btn-xs btn-outline-info\" title=\"View\" onclick=\"simulasi_pinjam("+data+")\">Simulasi Pembayaran</a>";
                 },
                 "orderable": false, //set not orderable
                 },
@@ -283,10 +322,51 @@
 
         }
 
-        // function confirm(){
-        //     $('.modal-title').text('Akses Pinjaman');
-        //     $("#modal_form").modal('show');
-        // }
+
+        function simulasi_pinjam(id){
+
+            $("#modalSimulasi").modal('show');
+            $('.modal-title').text('Simulasi Pinjaman');
+            var urls="{{route('admin.simulasilendings')}}";
+
+            $.ajax({
+            url : urls,
+            type: "POST",
+            dataType: "JSON",
+            data: { "_token": "{{ csrf_token() }}","id":id},
+            success: function(data)
+            {
+            console.log(data);
+            $('#tabl').html('');
+            let hitung= 0;
+            $.each(data, function(i, item) {
+            hitung ++;
+            var numbers=item.tenors ^ 0;
+            console.log(numbers);
+            // alert(item.tenors);
+            if(hitung === 1){
+                $('#tabl').append('<tr><td>'+hitung+'</td><td>'+item.angsuran+'</td><td>'+item.pokok+'</td><td>'+item.bunga_per_bulan+'</td><td>'+item.tanggal_bayar+'</td></tr>');
+
+                var tanggal= "<?php echo date('d-m-Y')?>";
+                if(item.type == 'harian'){
+                    $('#nominal').val('Nominal Peminjaman: '+item.nominal_pinjaman +' Dengan Bunga '+item.persentase_bunga +'%/Hari');
+                }else{
+                    $('#nominal').val('Nominal Peminjaman: '+item.nominal_pinjaman +' Dengan Bunga '+item.persentase_bunga +'%/Bulan');
+                }
+                $('#periode_pinjam').val('Tenor: '+item.tenor +' Dengan Tanggal Simulasi Pencairan ' + tanggal);
+                $('#total_bayar').val('Total Pembayaran: '+item.total_bayar);
+            }else if(hitung > numbers ){
+
+            }else{
+                $('#tabl').append('<tr><td>'+hitung+'</td><td>'+item.angsuran+'</td><td>'+item.pokok+'</td><td>'+item.bunga_per_bulan+'</td><td>'+item.tanggal_bayar+'</td></tr>');
+            }
+
+            });
+
+
+            }
+            });
+        }
 
      </script>
 @endsection

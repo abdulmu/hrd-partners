@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Lending;
 use App\Models\LendingBorrowers;
+use App\Models\MasterProductInterestItem;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
@@ -136,4 +138,50 @@ class LendingController extends Controller
         $hasil_rupiah = "Rp " . number_format($angka,0,',','.');
         return $hasil_rupiah;
     }    
+
+    public function simulasi(Request $request){
+
+        $Lending = Lending::Getlist($request->id);
+        $products = MasterProductInterestItem::find($Lending->product_interest_item_id);
+
+        if($products->tenor_unit == 'daily'){
+
+            $i=1;
+            $nominal_pinjam = (int)$Lending->loan_amount;
+            $total_periode=(int)$products->tenor;
+            $persentase_bunga = (float)$products->interest_rate;
+            $data['interest_rate_calculation'] = $products->interest_rate_calculation;
+            $month_sched = date('d-m-Y');
+            $pokok = $nominal_pinjam ;
+            $bunga = $nominal_pinjam * $persentase_bunga / 100 * $total_periode ;
+            $total_bayar = $pokok + $bunga;
+            $tambah_hari=" +".$total_periode."day";
+            $tanggal = date("d-M-Y",strtotime($month_sched.$tambah_hari));
+            $data[$i]=array('bunga'=>$this->rupiah($bunga),'nominal_pinjaman'=>$this->rupiah($nominal_pinjam),'tanggal_bayar'=>$tanggal,'pokok'=>$this->rupiah($pokok),'bunga_per_bulan'=>$this->rupiah($bunga),'angsuran'=>$this->rupiah($total_bayar),'tenor'=>$total_periode.' Hari','total_bayar'=>$this->rupiah($total_bayar),'persentase_bunga'=>$persentase_bunga,'tenors'=>$total_periode);
+            
+        }else{
+
+            $i=1;
+            $nominal_pinjam = (int)$Lending->loan_amount;
+            $total_periode=(int)$products->tenor;
+            $persentase_bunga = (float)$products->interest_rate;
+            $data['interest_rate_calculation'] = $products->interest_rate_calculation;
+            $month_sched = date('d-m-Y');
+            $pokok = $nominal_pinjam / $total_periode;
+            $bunga = $nominal_pinjam * $persentase_bunga / 100 ;
+            $total_bayar = $pokok + $bunga;
+            while($i <= $total_periode) {
+                    
+                $tambah_bulan=" +".$i."month";
+                $tanggal[$i] = date("d-M-Y",strtotime($month_sched.$tambah_bulan));
+                $data[$i]=array('bunga'=>$this->rupiah($bunga),'nominal_pinjaman'=>$this->rupiah($nominal_pinjam),'tanggal_bayar'=>$tanggal[$i],'pokok'=>$this->rupiah($pokok),'bunga_per_bulan'=>$this->rupiah($bunga),'angsuran'=>$this->rupiah($total_bayar),'tenor'=>$total_periode.' Bulan','total_bayar'=>$this->rupiah($total_bayar),'persentase_bunga'=>$persentase_bunga,'tenors'=>$total_periode);
+                
+                $i++;
+            }
+        }
+
+        echo json_encode($data,true);
+        exit();
+    }
+
 }

@@ -26,6 +26,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('product_interest_items', 'Backend\MasterProductController@product_interest')->name('admin.product_interest');
     Route::post('ProductInterestItems', 'Backend\MasterProductController@ProductInterestItems')->name('admin.ProductInterestItems');
     Route::post('simulasi', 'Backend\MasterProductController@simulasi')->name('admin.simulasi');
+    Route::post('simulasilendings', 'Backend\LendingController@simulasi')->name('admin.simulasilendings');
 
     // Route::get('borrowers/show/{lenders}','Backend\BorrowersController@list_borrower_json')->name('lender.show');
 

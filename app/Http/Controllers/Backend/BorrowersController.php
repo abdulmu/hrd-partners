@@ -61,8 +61,6 @@ class BorrowersController extends Controller
     public function show($id)
     {
 
-        // dd($id);
-        // exit();
         $data = Borrowers::getBorrowers();
         $datas=null;
         foreach($data as $rows=>$row){

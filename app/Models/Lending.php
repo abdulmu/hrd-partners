@@ -225,7 +225,7 @@ class Lending extends Model
     public static function Getlist($id){
 
         $data = DB::connection('pgsql2')->table('confirm_hrd')
-                ->select('users.name','received_amount','lendings.id','lendings.loan_code','lendings.created_at','lendings.loan_amount','kyc_status','master_product_interest_items.interest_rate','master_product_interest_items.interest_rate_calculation','master_product_interest_items.tenor','master_product_interest_items.tenor_unit','master_products.product_code','master_products.product_name','confirm_hrd.status')
+                ->select('users.name','received_amount','lendings.id','lendings.loan_code','lendings.created_at','lendings.loan_amount','kyc_status','master_product_interest_items.interest_rate','master_product_interest_items.interest_rate_calculation','master_product_interest_items.tenor','master_product_interest_items.tenor_unit','master_products.product_code','master_products.product_name','confirm_hrd.status','lendings.product_interest_item_id')
                 ->join('lendings', 'confirm_hrd.lending_id', '=', 'lendings.id')
                 ->join('lending_borrowers', 'lendings.id', '=', 'lending_borrowers.lending_id')
                 ->join('borrowers', 'borrowers.id', '=', 'lending_borrowers.borrower_id')
