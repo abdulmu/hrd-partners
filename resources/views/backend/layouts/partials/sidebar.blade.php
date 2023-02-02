@@ -84,7 +84,7 @@
                         </ul>
                     </li>
                     @endif
-                    @if ($usr->can('borrowers.create') || $usr->can('borrowers.view') ||  $usr->can('borrowers.edit') ||  $usr->can('borrowers.delete'))
+                    {{-- @if ($usr->can('borrowers.create') || $usr->can('borrowers.view') ||  $usr->can('borrowers.edit') ||  $usr->can('borrowers.delete')) --}}
                     <li>
                         <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-user"></i><span>
                             Peminjam 
@@ -100,7 +100,7 @@
                             @endif --}}
                         </ul>
                     </li>
-                    @endif
+                    {{-- @endif --}}
                     @if ($usr->can('product.create') || $usr->can('product.view') ||  $usr->can('product.edit') ||  $usr->can('product.delete'))
                     <li>
                         <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-user"></i><span>
