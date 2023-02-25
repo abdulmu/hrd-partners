@@ -52,6 +52,16 @@ class LendingBorrowers extends Model
         'link_sign_document'
     ];
 
+    public function lending()
+    {
+        return $this->belongsTo(Lending::class);
+    }
+    public function users()
+    {
+        return $this->belongsTo(Lending::class, 'Lending_id', 'id');
+    }
+
+
     public $timestamps = false;
 
 }
