@@ -134,7 +134,7 @@
                 </div>
                 <div class="form-group col-md-6 col-sm-6">
                     <label for="username">Plafon Pinjaman</label>
-                    <input type="text" class="form-control" id="update_plafon" name="possable_price" placeholder="Plafon Pinjaman" required >
+                    <input type="text" class="form-control" id="update_plafon" name="plafon" placeholder="Plafon Pinjaman" required >
                 </div>
             </div>
 

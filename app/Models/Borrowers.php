@@ -36,6 +36,7 @@ class Borrowers extends Model
         'updated_at',
         'platform',
         'salt',
+        'plafon',
         'roles',
         'ktp_status',
         'npwp_status',
@@ -120,7 +121,7 @@ class Borrowers extends Model
     public static function getDataBorrowers($id){
 
         $data = DB::connection('pgsql2')->table('users')
-                ->select('staff_id','borrower_id','email','name','birthday','gender','kyc_status','ec_name','ec_phone_number','ec_email','ec_address','ec_village','ec_district','ec_city','ec_province','ec_postal_code','plafon','mother_name','users.monthly_income','plafon_active','business_status','user_phone_numbers.phone_number','gender','users.id as id','users.monthly_income','borrowers.id as borrowerid ')
+                ->select('staff_id','borrower_id','email','name','birthday','gender','kyc_status','ec_name','ec_phone_number','ec_email','ec_address','ec_village','ec_district','ec_city','ec_province','ec_postal_code','plafon','mother_name','users.monthly_income','plafon_active','business_status','user_phone_numbers.phone_number','gender','users.id as id','users.monthly_income','borrowers.id as borrowerid ','borrowers.plafon')
                 ->join('user_phone_numbers', 'user_phone_numbers.id', '=', 'users.user_phone_number_id')
                 ->join('borrowers', 'user_phone_numbers.id', '=', 'borrowers.user_phone_number_id')
                 ->where('users.id', $id)

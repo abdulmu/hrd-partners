@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Borrowers;
+use App\Models\UserCore;
 use App\Models\GeneratorAccesLoan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -96,13 +97,21 @@ class BorrowersController extends Controller
         $data=$request->email;
         $borrowers = Borrowers::getDataBorrowers($id);
         $borrowers->name = $request->name;
-        $borrowers->gender = $request->gender;
+        // $borrowers->gender = $request->gender;
         $borrowers->plafon = $request->plafon;
         $borrowers->email = $request->email;
         $borrowers->kyc_status = $request->kyc_status;
-        $borrowers->monthly_income = $request->monthly_income;
 
-        var_dump($borrowers);
+        $databorrowers['monthly_income']=preg_replace("/[^0-9.]/", "",$request->monthly_income);
+        
+        $result = UserCore::where('id','=',$borrowers->borrower_id)->get();
+
+
+
+
+        // $borrowers->monthly_income = $request->monthly_income;
+
+        var_dump($result);
         exit();
 
 
