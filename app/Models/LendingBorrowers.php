@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+
 
 class LendingBorrowers extends Model
 {
@@ -56,12 +58,52 @@ class LendingBorrowers extends Model
     {
         return $this->belongsTo(Lending::class);
     }
-    public function users()
+    public function borrower()
     {
-        return $this->belongsTo(Lending::class, 'Lending_id', 'id');
+        return $this->belongsTo(Borrower::class);
+    }
+
+    public static function lendingFunding()
+    {
+        $data = DB::connection('pgsql2')->table('lending_borrowers')->select('lending_borrowers.id', 'name', 'username', 'email','email','lendings.loan_code','master_products.product_name','lendings.created_at')
+        ->join('users', 'users.id', '=', 'lending_borrowers.borrower_id')
+        ->join('lendings','lendings.id','=', 'lending_borrowers.lending_id')
+        ->join('master_products','master_products.id','=', 'lendings.product_id')
+        ->orderBy('users.id', 'desc');
+
+        return $data;
+    }
+
+    public static function lendingPaymentSchedule()
+    {
+        $data = DB::connection('pgsql2')->table('lending_borrowers')->select('lending_borrowers.id', 'name', 'username', 'email','email','lendings.loan_code','master_products.product_name','lending_borrowers.disbursed_at','payment_schedule_borrowers.payment_date')
+        ->join('users', 'users.id', '=', 'lending_borrowers.borrower_id')
+        ->join('lendings','lendings.id','=', 'lending_borrowers.lending_id')
+        ->join('master_products','master_products.id','=', 'lendings.product_id')
+        ->join('payment_schedules','payment_schedules.lending_id','=', 'lendings.id')        
+        ->join('payment_schedule_borrowers','payment_schedule_borrowers.payment_schedule_id','=', 'payment_schedules.id')        
+        // ->where('lendings.status', 'Aktif')
+        // ->groupBy('users.id', 'payment_schedule_borrowers')
+
+        ->orderBy('users.id', 'desc');
+
+        return $data;
     }
 
 
-    public $timestamps = false;
+    public static function lendingFundingParameters($id)
+    {
+        $data = DB::connection('pgsql2')->table('lending_borrowers')->select('lending_borrowers.id', 'name', 'username', 'email','email','lendings.loan_code','master_products.product_name','lendings.created_at','phone_number','nik','loan_amount','disbursed_amount','lending_borrowers.disbursed_at','bank_account_name','bank_account_number')
+        ->join('users', 'users.id', '=', 'lending_borrowers.borrower_id')
+        ->join('lendings','lendings.id','=', 'lending_borrowers.lending_id')
+        ->join('master_products','master_products.id','=', 'lendings.product_id')
+        ->join('borrowers','borrowers.id','=', 'users.borrower_id')
+        ->join('user_phone_numbers', 'user_phone_numbers.id', '=', 'users.user_phone_number_id')
+        ->where('lending_borrowers.id', $id)
+        ->orderBy('users.id', 'desc')->first();
 
+        return $data;
+    }
+
+    public $timestamps = false;
 }

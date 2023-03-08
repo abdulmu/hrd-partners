@@ -66,23 +66,34 @@ class Borrowers extends Model
     public static function getData(){
 
         $data = DB::connection('pgsql2')->table('users')
-                // ->select('name','birthday','user_phone_numbers.id')
                 ->select('email','name','kyc_status','user_phone_numbers.phone_number','users.id as id')
                 ->join('user_phone_numbers', 'user_phone_numbers.id', '=', 'users.user_phone_number_id')
                 ->join('borrowers', 'user_phone_numbers.id', '=', 'borrowers.user_phone_number_id')
-                // ->LeftJoin('generator_acces_loan', 'generator_acces_loan.user_id', '=', 'users.id')
                 ->groupBy('user_phone_numbers.phone_number')
                 ->groupBy('users.email')
                 ->groupBy('users.name')
                 ->groupBy('users.id')
                 ->groupBy('users.kyc_status')
-
-
-
-
-                // ->where('users.email','msyahrulr122@gmalii.com')
-                // ->where('users.id', $id)
                 ->get();
+
+        return $data;
+    }
+
+
+    public static function cif(){
+
+        $data = DB::connection('pgsql2')->table('users')
+                ->select('email','name','kyc_status','users.id as id','users.created_at','nik')
+                ->join('borrowers', 'borrowers.id', '=', 'users.borrower_id');
+
+        return $data;
+    }
+
+    public static function kyc(){
+
+        $data = DB::connection('pgsql2')->table('users')
+                ->select('email','name','kyc_status','users.id as id','users.created_at','nik','birthday')
+                ->join('borrowers', 'borrowers.id', '=', 'users.borrower_id');
 
         return $data;
     }
@@ -131,40 +142,9 @@ class Borrowers extends Model
         return $data;
     }
 
-    // public function bank_accounts()
-    // {
-    //     return $this->hasMany(BankAccount::class);
-    // }
-
-    // public function getType()
-    // {
-    //     switch ($this->type) {
-    //         case self::TYPE_BORROWER_INDIVIDU:
-    //             return 'Individu';
-    //             break;
-    //         case self::TYPE_BORROWER_GROUPS:
-    //             return 'Kelompok';
-    //             break;
-    //         case self::TYPE_BORROWER_BUSINESS_ENTITY:
-    //             return 'Perusahaan';
-    //             break;
-    //         default:
-    //             return '-';
-    //     }
-    // }
-
-    // public function pic()
-    // {
-    //     return $this->hasOne(PIC::class,'borrower_id','id');
-    // }
+    public function lending_borrowers()
+    {
+        return $this->hasMany(LendingBorrower::class,'borrower_id','id');
+    }
     
-    // public function borrower_group()
-    // {
-    //     return $this->hasOne(BorrowerGroup::class);
-    // }
-
-    // public function borrower_group_members()
-    // {
-    //     return $this->hasOne(BorrowerGroupMember::class);
-    // }
 }

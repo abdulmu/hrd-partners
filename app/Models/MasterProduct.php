@@ -52,12 +52,6 @@ class MasterProduct extends Model
         ->where('master_products.status', 2)
         ->groupBy('master_products.product_code')
         ->groupBy('master_products.id')
-        // ->groupBy('master_product_interest.interest_code')
-        // ->groupBy('master_product_interest_items.interest_rate')
-        // ->groupBy('master_product_interest_items.interest_rate_calculation')
-        // ->groupBy('master_product_interest_items.tenor')
-        // ->groupBy('master_product_interest_items.tenor_unit')
-        // ->groupBy('master_product_interest_items.grace_period')
         ->get();
 
         return $data;
@@ -71,6 +65,47 @@ class MasterProduct extends Model
         ->join('master_product_interest_items', 'master_product_interest_items.product_interest_id', '=', 'master_product_interest.id')
         ->where('master_products.id', $id)
         ->first();
+
+        return $data;
+    }
+
+    public static function ProductBej(){
+
+        $data = DB::connection('pgsql2')->table('master_products')
+        ->select("master_products.product_name","master_products.id")
+        ->join('lendings', 'lendings.product_id', '=', 'master_products.id')
+        ->join('payment_schedules', 'payment_schedules.lending_id', '=', 'lendings.id')
+        // ->where('fully_paid','=',false)
+        ->groupBy('master_products.product_name')
+        ->groupBy('master_products.id');
+
+        return $data;
+    }
+
+    public static function ProductCheckOutstading($id){
+
+        $data = DB::connection('pgsql2')->table('master_products')
+        ->select(DB::raw("sum(CAST(payment_schedules.principal as int)) as total"),"master_products.product_name","master_products.id")
+        ->join('lendings', 'lendings.product_id', '=', 'master_products.id')
+        ->join('payment_schedules', 'payment_schedules.lending_id', '=', 'lendings.id')
+        ->where('fully_paid','=',true)
+        ->where('master_products.id','=',$id)
+        ->groupBy('master_products.product_name')
+        ->groupBy('master_products.id')->first();
+
+        return $data;
+    }
+
+    public static function Checktotalpayment($id){
+
+        $data = DB::connection('pgsql2')->table('master_products')
+        ->select(DB::raw("sum(CAST(payment_schedules.principal as int)) as total"),"master_products.product_name","master_products.id")
+        ->join('lendings', 'lendings.product_id', '=', 'master_products.id')
+        ->join('payment_schedules', 'payment_schedules.lending_id', '=', 'lendings.id')
+        ->where('fully_paid','=',false)
+        ->where('master_products.id','=',$id)
+        ->groupBy('master_products.product_name')
+        ->groupBy('master_products.id')->first();
 
         return $data;
     }

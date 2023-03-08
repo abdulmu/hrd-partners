@@ -19,12 +19,12 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('products', 'Backend\MasterProductController', ['names' => 'admin.products']);
     Route::resource('lendings', 'Backend\LendingController', ['names' => 'admin.lendings']);
     Route::resource('companies', 'Backend\CompaniesController', ['names' => 'admin.companies']);
-<<<<<<< Updated upstream
-=======
     Route::resource('borrowers', 'Backend\BorrowersController', ['names' => 'admin.borrowers']);
-    Route::resource('lendingFundings', 'Backend\LendingFundingController', ['names' => 'admin.lendingFunding']);
-
->>>>>>> Stashed changes
+    Route::resource('lendingFunding', 'Backend\LendingFundingController', ['names' => 'admin.lendingFunding']);
+    Route::resource('lendingPayment', 'Backend\LendingPaymentController', ['names' => 'admin.lendingPayment']);
+    Route::resource('cif', 'Backend\CifController', ['names' => 'admin.cif']);
+    Route::resource('kyc', 'Backend\KycController', ['names' => 'admin.kyc']);
+    Route::resource('productBej', 'Backend\ProductBejController', ['names' => 'admin.productBej']);
 
     Route::post('generate', 'Backend\MasterProductController@generate')->name('admin.generate');
     Route::post('product_interest_items', 'Backend\MasterProductController@product_interest')->name('admin.product_interest');

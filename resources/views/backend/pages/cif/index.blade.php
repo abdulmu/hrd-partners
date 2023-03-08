@@ -21,10 +21,10 @@ Admins - Admin Panel
     <div class="row align-items-center">
         <div class="col-sm-6">
             <div class="breadcrumbs-area clearfix">
-                <h4 class="page-title pull-left">Pendanaan</h4>
+                <h4 class="page-title pull-left">CIF</h4>
                 <ul class="breadcrumbs pull-left">
                     <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                    <li><span>Pendanaan</span></li>
+                    <li><span>CIF</span></li>
                 </ul>
             </div>
         </div>
@@ -56,7 +56,6 @@ Admins - Admin Panel
                             </td>    
                             <td>......
                                 <input type="button" value="cari" name="search" class="btn btn-primary form-control">
-                                {{-- <button type="button" id="confirms" class="btn btn-primary shows ">Cari</button>                           --}}
                             </td>    
 
                         </tr>
@@ -76,12 +75,11 @@ Admins - Admin Panel
                         @include('backend.layouts.partials.messages')
                         <table id="dataTable" class="text-center">
                             <thead class="bg-light text-capitalize">
-                                <tr class="h5">
+                                <tr class="h6">
+                                    <th width="10%">CIF</th>
                                     <th width="10%">Created Date</th>
-                                    <th width="10%">No. Pinjaman</th>
                                     <th width="10%">Nama Debitur</th>
-                                    <th width="10%">Account Reference</th>
-                                    <th width="10%">Jenis Produk</th>
+                                    <th width="10%">NIK</th>
                                     <th width="10%">Batch</th>
                                     <th width="10%">Action</th>
                                 </tr>
@@ -89,11 +87,10 @@ Admins - Admin Panel
                             <tbody>
                                @foreach ($pages['data'] as $data)
                                <tr>
+                                    <td></td>
                                     <td>{{ $data['created_at'] }}</td>
-                                    <td>{{ $data['loan_code'] }}</td>
                                     <td>{{ $data['name'] }}</td>
-                                    <td>-</td>
-                                    <td>-</td>
+                                    <td>{{ $data['nik'] }}</td>
                                     <td>-</td>
                                     <td>
                                         <a class="btn btn-primary shows" href="{{ route('admin.lendingFunding.show', $data['id']) }}">Detail</a>
@@ -118,22 +115,4 @@ Admins - Admin Panel
 
 
 @section('scripts')
-     <!-- Start datatable js -->
-     {{-- <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-     <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
-     <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
-     <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-     <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
-     
-     <script>
-         /*================================
-        datatable active
-        ==================================*/
-        if ($('#dataTable').length) {
-            $('#dataTable').DataTable({
-                responsive: true
-            });
-        }
-
-     </script> --}}
 @endsection

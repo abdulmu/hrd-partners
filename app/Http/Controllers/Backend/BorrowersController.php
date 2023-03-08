@@ -96,7 +96,18 @@ class BorrowersController extends Controller
         $data=$request->email;
         $borrowers = Borrowers::getDataBorrowers($id);
         $borrowers->name = $request->name;
+        $borrowers->gender = $request->gender;
+        $borrowers->plafon = $request->plafon;
         $borrowers->email = $request->email;
+        $borrowers->kyc_status = $request->kyc_status;
+        $borrowers->monthly_income = $request->monthly_income;
+
+        var_dump($borrowers);
+        exit();
+
+
+
+
         $borrowers->save();
     } 
     public function rupiah($angka){

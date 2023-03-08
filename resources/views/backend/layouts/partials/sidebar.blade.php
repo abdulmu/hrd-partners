@@ -24,6 +24,45 @@
                     </li>
                     @endif
 
+                    @if ($usr->can('cif.view') )
+                    <li>
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-user"></i><span>
+                            CIF
+                        </span></a>
+                        <ul class="collapse {{ Route::is('cif.view') ? 'in' : '' }}">
+                            @if ($usr->can('borrower.view'))
+                                <li class="{{ Route::is('admin.cif.index')  || Route::is('admin.cif.view') ? 'active' : '' }}"><a href="{{ route('admin.cif.index') }}">List CIF</a></li>
+                            @endif
+                        </ul>
+                    </li>
+                    @endif
+
+                    @if ($usr->can('kyc.view') )
+                    <li>
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-user"></i><span>
+                            KYC
+                        </span></a>
+                        <ul class="collapse {{ Route::is('kyc.view') ? 'in' : '' }}">
+                            @if ($usr->can('borrower.view'))
+                                <li class="{{ Route::is('admin.kyc.index')  || Route::is('admin.kyc.view') ? 'active' : '' }}"><a href="{{ route('admin.kyc.index') }}">List KYC</a></li>
+                            @endif
+                        </ul>
+                    </li>
+                    @endif
+
+                    @if ($usr->can('lendingFunding.view') )
+                    <li>
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-user"></i><span>
+                            Pendanaan
+                        </span></a>
+                        <ul class="collapse {{ Route::is('lendingFunding.view') ? 'in' : '' }}">
+                            @if ($usr->can('borrower.view'))
+                                <li class="{{ Route::is('admin.lendingFunding.index')  || Route::is('admin.lendingFunding.view') ? 'active' : '' }}"><a href="{{ route('admin.lendingFunding.index') }}">List Pendanaan</a></li>
+                            @endif
+                        </ul>
+                    </li>
+                    @endif
+
                     @if ($usr->can('role.create') || $usr->can('role.view') ||  $usr->can('role.edit') ||  $usr->can('role.delete'))
                     <li>
                         <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-tasks"></i><span>
@@ -35,6 +74,19 @@
                             @endif
                             @if ($usr->can('role.create'))
                                 <li class="{{ Route::is('admin.roles.create')  ? 'active' : '' }}"><a href="{{ route('admin.roles.create') }}">Create Role</a></li>
+                            @endif
+                        </ul>
+                    </li>
+                    @endif
+
+                    @if ($usr->can('borrower.view') ||  $usr->can('borrower.show'))
+                    <li>
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-user"></i><span>
+                            Peminjam
+                        </span></a>
+                        <ul class="collapse {{ Route::is('admin.borrower.view') ? 'in' : '' }}">
+                            @if ($usr->can('borrower.view'))
+                                <li class="{{ Route::is('admin.borrowers.index')  || Route::is('admin.borrowers.edit') ? 'active' : '' }}"><a href="{{ route('admin.borrowers.index') }}">Peminjam</a></li>
                             @endif
                         </ul>
                     </li>
@@ -115,6 +167,18 @@
                     </li>
                     @endif
 
+                    @if ($usr->can('productBej.view') ||  $usr->can('productBej.show'))
+                    <li>
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-user"></i><span>
+                            Product
+                        </span></a>
+                        <ul class="collapse {{ Route::is('admin.productBej.view') ? 'in' : '' }}">
+                            @if ($usr->can('productBej.view'))
+                                <li class="{{ Route::is('admin.productBej.index')  || Route::is('admin.productBej.edit') ? 'active' : '' }}"><a href="{{ route('admin.productBej.index') }}">Product</a></li>
+                            @endif
+                        </ul>
+                    </li>
+                    @endif
                 </ul>
             </nav>
         </div>

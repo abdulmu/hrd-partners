@@ -21,10 +21,10 @@ Admins - Admin Panel
     <div class="row align-items-center">
         <div class="col-sm-6">
             <div class="breadcrumbs-area clearfix">
-                <h4 class="page-title pull-left">Pendanaan</h4>
+                <h4 class="page-title pull-left">Pembayaran</h4>
                 <ul class="breadcrumbs pull-left">
                     <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                    <li><span>Pendanaan</span></li>
+                    <li><span>Pembayaran</span></li>
                 </ul>
             </div>
         </div>
@@ -76,9 +76,10 @@ Admins - Admin Panel
                         @include('backend.layouts.partials.messages')
                         <table id="dataTable" class="text-center">
                             <thead class="bg-light text-capitalize">
-                                <tr class="h5">
-                                    <th width="10%">Created Date</th>
-                                    <th width="10%">No. Pinjaman</th>
+                                <tr class="h6">
+                                    <th width="10%">Tanggal Cair</th>
+                                    <th width="10%">Tanggal Pembayaran</th>
+                                    <th width="10%">No Pinjaman</th>
                                     <th width="10%">Nama Debitur</th>
                                     <th width="10%">Account Reference</th>
                                     <th width="10%">Jenis Produk</th>
@@ -89,10 +90,11 @@ Admins - Admin Panel
                             <tbody>
                                @foreach ($pages['data'] as $data)
                                <tr>
-                                    <td>{{ $data['created_at'] }}</td>
+                                    <td>{{ $data['disbursed_at'] }}</td>
+                                    <td>{{ $data['payment_date'] }}</td>
                                     <td>{{ $data['loan_code'] }}</td>
                                     <td>{{ $data['name'] }}</td>
-                                    <td>-</td>
+                                    <td>{{ $data['product_name'] }}</td>
                                     <td>-</td>
                                     <td>-</td>
                                     <td>

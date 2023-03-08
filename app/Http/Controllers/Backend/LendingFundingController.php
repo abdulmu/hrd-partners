@@ -30,30 +30,18 @@ class LendingFundingController extends Controller
         $page = $request->query('page') ?? 1;
         $raw = (bool) $request->query('raw') ?? false;
 
-        $rawData = LendingBorrowers::with('Lending');
+        $rawData = LendingBorrowers::lendingFunding();
         if ($raw) {
             $datas = json_encode($rawData->get());
         } else {
             $datas =json_encode($rawData->paginate(10, ['*'], 'page', $page));
         }
-        
+
         $data1 = json_decode($datas, true);
-
-
-        $pages['current_page']=$data1['current_page'];
         $pages['data']=$data1['data'];
-        $pages['link']=$data1['links'];
-        // $pagess=$data1;
+        $pagination = LendingBorrowers::lendingFunding()->paginate(10);
 
-        $pagess = Lending::paginate(10);
-
-
-        // var_dump($pagess);
-        // exit();
-
-
-
-        return view('backend.pages.lendingOpened.index',compact('pages','pagess'));
+        return view('backend.pages.lendingOpened.index',compact('pages','pagination'));
     }
 
     public function list_lending_json(Request $request)
@@ -75,6 +63,15 @@ class LendingFundingController extends Controller
             'data' => $datas
         ]);
 
-        // return Datatables::of($rawData)->make(true);
     }  
+    public function show(int $id)
+    {
+        $data = LendingBorrowers::lendingFundingParameters($id);
+
+
+        return view('backend.pages.lendingOpened.detail',compact('data'));
+
+        var_dump($rawData);
+        exit();
+    }   
 }
