@@ -103,8 +103,7 @@ class BorrowersController extends Controller
         $borrowers->kyc_status = $request->kyc_status;
 
         $databorrowers['monthly_income']=preg_replace("/[^0-9.]/", "",$request->monthly_income);
-        
-        $result = UserCore::where('id','=',$borrowers->borrower_id)->get();
+        $result = UserCore::where('id','=',$borrowers->borrower_id)->update($databorrowers);
 
 
 
