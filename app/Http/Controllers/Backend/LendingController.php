@@ -87,7 +87,7 @@ class LendingController extends Controller
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_URL,'https://p2p.klikumkm.co.id/api/v1/hrds/scoring');
+        curl_setopt($ch, CURLOPT_URL,env('CONFIRM_URL');
         curl_setopt($ch, CURLOPT_POSTFIELDS,$data);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
